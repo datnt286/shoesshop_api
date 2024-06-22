@@ -78,9 +78,9 @@ namespace shoesshop_api.Controllers
 			}
 		}
 
-		// GET: api/Wishlists/GetWishlistDetails/{userId}
+		// GET: api/Wishlists/WishlistDetails/User/{userId}
 		[Authorize]
-		[HttpGet("GetWishlistDetails/{userId}")]
+		[HttpGet("WishlistDetails/User/{userId}")]
 		public async Task<ActionResult<IEnumerable<WishlistDetailDTO>>> GetWishlistDetails(string userId, int currentPage = 1, int pageSize = 10)
 		{
 			if (currentPage <= 0 || pageSize <= 0)
@@ -129,10 +129,10 @@ namespace shoesshop_api.Controllers
 			return Ok(result);
 		}
 
-		// DELETE: api/Wishlists/DeleteWishlistDetailById/{id}
+		// DELETE: api/Wishlists/DeleteWishlistDetail/{id}
 		[Authorize]
-		[HttpDelete("DeleteWishlistDetailById/{id}")]
-		public async Task<IActionResult> DeleteWishlistDetailById(int id)
+		[HttpDelete("DeleteWishlistDetail/{id}")]
+		public async Task<IActionResult> DeleteWishlistDetail(int id)
 		{
 			var wishlistDetail = await _context.WishlistDetails.FindAsync(id);
 			if (wishlistDetail == null)
@@ -144,106 +144,6 @@ namespace shoesshop_api.Controllers
 			await _context.SaveChangesAsync();
 
 			return NoContent();
-		}
-
-		// GET: api/Wishlists
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Wishlist>>> GetWishlists()
-		{
-			if (_context.Wishlists == null)
-			{
-				return NotFound();
-			}
-			return await _context.Wishlists.ToListAsync();
-		}
-
-		// GET: api/Wishlists/5
-		[HttpGet("{id}")]
-		public async Task<ActionResult<Wishlist>> GetWishlist(int id)
-		{
-			if (_context.Wishlists == null)
-			{
-				return NotFound();
-			}
-			var wishlist = await _context.Wishlists.FindAsync(id);
-
-			if (wishlist == null)
-			{
-				return NotFound();
-			}
-
-			return wishlist;
-		}
-
-		// PUT: api/Wishlists/5
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-		[HttpPut("{id}")]
-		public async Task<IActionResult> PutWishlist(int id, Wishlist wishlist)
-		{
-			if (id != wishlist.Id)
-			{
-				return BadRequest();
-			}
-
-			_context.Entry(wishlist).State = EntityState.Modified;
-
-			try
-			{
-				await _context.SaveChangesAsync();
-			}
-			catch (DbUpdateConcurrencyException)
-			{
-				if (!WishlistExists(id))
-				{
-					return NotFound();
-				}
-				else
-				{
-					throw;
-				}
-			}
-
-			return NoContent();
-		}
-
-		// POST: api/Wishlists
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-		[HttpPost]
-		public async Task<ActionResult<Wishlist>> PostWishlist(Wishlist wishlist)
-		{
-			if (_context.Wishlists == null)
-			{
-				return Problem("Entity set 'ShoesshopContext.Wishlists'  is null.");
-			}
-			_context.Wishlists.Add(wishlist);
-			await _context.SaveChangesAsync();
-
-			return CreatedAtAction("GetWishlist", new { id = wishlist.Id }, wishlist);
-		}
-
-		// DELETE: api/Wishlists/5
-		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteWishlist(int id)
-		{
-			if (_context.Wishlists == null)
-			{
-				return NotFound();
-			}
-			var wishlist = await _context.Wishlists.FindAsync(id);
-			if (wishlist == null)
-			{
-				return NotFound();
-			}
-
-			_context.Wishlists.Remove(wishlist);
-			await _context.SaveChangesAsync();
-
-			return NoContent();
-		}
-
-		private bool WishlistExists(int id)
-		{
-			return (_context.Wishlists?.Any(e => e.Id == id)).GetValueOrDefault();
 		}
 	}
 }
