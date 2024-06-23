@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using shoesshop_api.Data;
+using shoesshop_api.DTOs;
 using shoesshop_api.Models;
 
 namespace shoesshop_api.Controllers
@@ -21,8 +22,104 @@ namespace shoesshop_api.Controllers
             _context = context;
         }
 
-        // GET: api/Reviews
-        [HttpGet]
+		// POST: api/Reviews
+		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[HttpPost]
+		public async Task<IActionResult> PostReview([FromBody] ReviewRequest request)
+		{
+			var user = await _context.Users.FindAsync(request.UserId);
+			if (user == null)
+			{
+				return NotFound("User not found.");
+			}
+
+			var model = await _context.Models.FindAsync(request.ModelId);
+			if (model == null)
+			{
+				return NotFound("Model not found.");
+			}
+
+			var existingReview = await _context.Reviews
+				.FirstOrDefaultAsync(r => r.UserId == request.UserId && r.ModelId == request.ModelId);
+			
+			if (existingReview != null)
+			{
+				_context.Reviews.Remove(existingReview);
+			}
+
+			var review = new Review
+			{
+				UserId = request.UserId,
+				ModelId = request.ModelId,
+				Rating = request.Rating,
+				Content = request.Content,
+				CreateDate = DateTime.Now,
+				Status = 1,
+			};
+
+			_context.Reviews.Add(review);
+			await _context.SaveChangesAsync();
+
+			return CreatedAtAction("GetReview", new { id = review.Id }, review);
+		}
+
+		// GET: api/Reviews/Model/{modelId}
+		[HttpGet("Model/{modelId}")]
+		public async Task<ActionResult<IEnumerable<Review>>> GetPagedReviewsByModelId(int modelId, int currentPage = 1, int pageSize = 10)
+		{
+			if (_context.Reviews == null)
+			{
+				return NotFound();
+			}
+
+			if (currentPage <= 0 || pageSize <= 0)
+			{
+				return BadRequest("Invalid page number or page size.");
+			}
+
+			var query = _context.Reviews
+				.Where(c => c.ModelId == modelId)
+				.Where(c => c.Status == 1)
+				.Include(c => c.User)
+				.OrderByDescending(c => c.CreateDate)
+				.Select(c => new
+				{
+					Id = c.Id,
+					ModelId = c.ModelId,
+					UserId = c.UserId,
+					CustomerUserName = c.User.UserName,
+					CustomerName = c.User.Name,
+					CustomerAvatar = c.User.Avatar,
+					Rating = c.Rating,
+					Content = c.Content,
+					CreateDate = c.CreateDate.ToString("dd-MM-yyyy HH:mm:ss"),
+					Status = c.Status
+				});
+
+			var totalItems = await query.CountAsync();
+			var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+			if (currentPage > totalPages && totalPages > 0)
+			{
+				return BadRequest("Page number exceeds total pages.");
+			}
+
+			var items = await query
+				.Skip((currentPage - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+			var result = new
+			{
+				items,
+				totalPages
+			};
+
+			return Ok(result);
+		}
+
+		// GET: api/Reviews
+		[HttpGet]
         public async Task<ActionResult<IEnumerable<Review>>> GetReviews()
         {
           if (_context.Reviews == null)
@@ -79,21 +176,6 @@ namespace shoesshop_api.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Reviews
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Review>> PostReview(Review review)
-        {
-          if (_context.Reviews == null)
-          {
-              return Problem("Entity set 'ShoesshopContext.Reviews'  is null.");
-          }
-            _context.Reviews.Add(review);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetReview", new { id = review.Id }, review);
         }
 
         // DELETE: api/Reviews/5
