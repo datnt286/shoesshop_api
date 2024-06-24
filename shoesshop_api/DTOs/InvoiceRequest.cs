@@ -6,8 +6,6 @@ namespace shoesshop_api.DTOs
 	{
 		public string? UserId { get; set; }
 		public int Total { get; set; }
-		public int ShippingFee { get; set; }
-		public int TotalPayment { get; set; }
 		public string? Note { get; set; }
 		public List<CartDetailDTO> CartDetails { get; set; }
 	}

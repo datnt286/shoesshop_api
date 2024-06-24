@@ -45,8 +45,8 @@ namespace shoesshop_api.Controllers
 				UserId = request.UserId,
 				CreateDate = DateTime.Now,
 				Total = request.Total,
-				ShippingFee = request.ShippingFee,
-				TotalPayment = request.TotalPayment,
+				ShippingFee = 15000,
+				TotalPayment = request.Total + 15000,
 				Note = request.Note ?? string.Empty,
 				Status = 1,
 				InvoiceDetails = new List<InvoiceDetail>()
