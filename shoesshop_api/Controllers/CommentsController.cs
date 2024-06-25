@@ -56,7 +56,7 @@ namespace shoesshop_api.Controllers
 		}
 
 		// GET: api/Comments
-		[HttpGet]
+		[HttpGet("paged")]
 		public async Task<ActionResult<IEnumerable<Comment>>> GetPagedComments(int currentPage = 1, int pageSize = 10)
 		{
 			if (_context.Comments == null)
