@@ -75,7 +75,7 @@ namespace shoesshop_api.Controllers
 				if (result.Succeeded)
 				{
 					var user = await _userManager.FindByNameAsync(request.UserName);
-					var token = GenerateJwtToken(user);
+					var token = await GenerateJwtToken(user);
 					return Ok(new { token });
 				}
 				return Unauthorized("Invalid username or password.");
@@ -97,7 +97,7 @@ namespace shoesshop_api.Controllers
 
 					if (await _userManager.IsInRoleAsync(user, "Employee"))
 					{
-						var token = GenerateJwtToken(user);
+						var token = await GenerateJwtToken(user);
 						return Ok(new { token });
 					}
 					return Unauthorized("User is not an employee.");
@@ -158,7 +158,7 @@ namespace shoesshop_api.Controllers
 
 				if (result.Succeeded)
 				{
-					var token = GenerateJwtToken(user);
+					var token = await GenerateJwtToken(user);
 					return Ok(new { token });
 				}
 				return BadRequest(result.Errors);
@@ -192,7 +192,7 @@ namespace shoesshop_api.Controllers
 			return BadRequest(ModelState);
 		}
 
-		private string GenerateJwtToken(User user)
+		private async Task<string> GenerateJwtToken(User user)
 		{
 			var claims = new List<Claim>
 			{
@@ -208,6 +208,13 @@ namespace shoesshop_api.Controllers
 				new Claim("address", user.Address ?? string.Empty),
 				new Claim("avatar", user.Avatar ?? string.Empty)
 			};
+
+			var roles = await _userManager.GetRolesAsync(user);
+
+			foreach (var role in roles)
+			{
+				claims.Add(new Claim("role", role));
+			}
 
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
