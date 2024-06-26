@@ -194,10 +194,10 @@ namespace shoesshop_api.Controllers
 			return Ok(result);
 		}
 
-		// PUT: api/Comments/5
+		// PUT: api/Comments/UpdateStatus/{id}
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-		[HttpPut("SoftDelete/{id}")]
-		public async Task<IActionResult> SoftDeleteComment(int id)
+		[HttpPut("UpdateStatus/{id}")]
+		public async Task<IActionResult> UpdateStatusComment(int id, int status)
 		{
 			var comment = await _context.Comments.FindAsync(id);
 			if (comment == null)
@@ -205,7 +205,7 @@ namespace shoesshop_api.Controllers
 				return NotFound();
 			}
 
-			comment.Status = 0;
+			comment.Status = status;
 			_context.Entry(comment).State = EntityState.Modified;
 
 			try

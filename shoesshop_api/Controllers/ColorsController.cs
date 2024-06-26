@@ -96,6 +96,11 @@ namespace shoesshop_api.Controllers
 				return BadRequest();
 			}
 
+			if (await _context.Colors.AnyAsync(c => c.Name == color.Name && c.Id != id))
+			{
+				return Conflict(new { message = "Color name already exists." });
+			}
+
 			_context.Entry(color).State = EntityState.Modified;
 
 			try
@@ -126,6 +131,12 @@ namespace shoesshop_api.Controllers
 			{
 				return Problem("Entity set 'ShoesshopContext.Colors'  is null.");
 			}
+
+			if (await _context.Colors.AnyAsync(c => c.Name == color.Name))
+			{
+				return Conflict(new { message = "Color name already exists." });
+			}
+
 			_context.Colors.Add(color);
 			await _context.SaveChangesAsync();
 

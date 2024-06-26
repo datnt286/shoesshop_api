@@ -117,6 +117,11 @@ namespace shoesshop_api.Controllers
 				return BadRequest();
 			}
 
+			if (await _context.Brands.AnyAsync(b => b.Name == brand.Name && b.Id != id))
+			{
+				return Conflict(new { message = "Brand name already exists." });
+			}
+
 			_context.Entry(brand).State = EntityState.Modified;
 
 			try
@@ -147,6 +152,12 @@ namespace shoesshop_api.Controllers
 			{
 				return Problem("Entity set 'ShoesshopContext.Brands'  is null.");
 			}
+
+			if (await _context.Brands.AnyAsync(b => b.Name == brand.Name))
+			{
+				return Conflict(new { message = "Brand name already exists." });
+			}
+
 			_context.Brands.Add(brand);
 			await _context.SaveChangesAsync();
 

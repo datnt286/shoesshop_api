@@ -97,6 +97,11 @@ namespace shoesshop_api.Controllers
 				return BadRequest();
 			}
 
+			if (await _context.Sizes.AnyAsync(s => s.Name == size.Name && s.Id != id))
+			{
+				return Conflict(new { message = "Size name already exists." });
+			}
+
 			_context.Entry(size).State = EntityState.Modified;
 
 			try
@@ -127,6 +132,12 @@ namespace shoesshop_api.Controllers
 			{
 				return Problem("Entity set 'ShoesshopContext.Sizes'  is null.");
 			}
+
+			if (await _context.Sizes.AnyAsync(s => s.Name == size.Name))
+			{
+				return Conflict(new { message = "Size name already exists." });
+			}
+
 			_context.Sizes.Add(size);
 			await _context.SaveChangesAsync();
 
