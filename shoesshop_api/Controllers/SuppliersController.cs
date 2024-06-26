@@ -96,6 +96,33 @@ namespace shoesshop_api.Controllers
 				return BadRequest();
 			}
 
+			var errors = new List<string>();
+
+			if (await _context.Suppliers.AnyAsync(s => s.Name == supplier.Name && s.Id != id))
+			{
+				errors.Add("Supplier with the same Name already exists.");
+			}
+
+			if (await _context.Suppliers.AnyAsync(s => s.PhoneNumber == supplier.PhoneNumber && s.Id != id))
+			{
+				errors.Add("Supplier with the same PhoneNumber already exists.");
+			}
+
+			if (await _context.Suppliers.AnyAsync(s => s.Email == supplier.Email && s.Id != id))
+			{
+				errors.Add("Supplier with the same Email already exists.");
+			}
+
+			if (await _context.Suppliers.AnyAsync(s => s.Address == supplier.Address && s.Id != id))
+			{
+				errors.Add("Supplier with the same Address already exists.");
+			}
+
+			if (errors.Count > 0)
+			{
+				return Conflict(new { messages = errors });
+			}
+
 			_context.Entry(supplier).State = EntityState.Modified;
 
 			try
@@ -126,6 +153,34 @@ namespace shoesshop_api.Controllers
 			{
 				return Problem("Entity set 'ShoesshopContext.Suppliers'  is null.");
 			}
+
+			var errors = new List<string>();
+
+			if (await _context.Suppliers.AnyAsync(s => s.Name == supplier.Name))
+			{
+				errors.Add("Supplier with the same Name already exists.");
+			}
+
+			if (await _context.Suppliers.AnyAsync(s => s.PhoneNumber == supplier.PhoneNumber))
+			{
+				errors.Add("Supplier with the same PhoneNumber already exists.");
+			}
+
+			if (await _context.Suppliers.AnyAsync(s => s.Email == supplier.Email))
+			{
+				errors.Add("Supplier with the same Email already exists.");
+			}
+
+			if (await _context.Suppliers.AnyAsync(s => s.Address == supplier.Address))
+			{
+				errors.Add("Supplier with the same Address already exists.");
+			}
+
+			if (errors.Count > 0)
+			{
+				return Conflict(new { messages = errors });
+			}
+
 			_context.Suppliers.Add(supplier);
 			await _context.SaveChangesAsync();
 
