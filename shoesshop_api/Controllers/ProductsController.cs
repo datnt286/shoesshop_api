@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -129,6 +130,16 @@ namespace shoesshop_api.Controllers
 				return BadRequest();
 			}
 
+			if (await _context.Products.AnyAsync(p => p.ModelId == product.ModelId && p.ColorId == product.ColorId && p.SizeId == product.SizeId && p.Id != id))
+			{
+				return Conflict(new { message = "A product with the same ModelId, ColorId, and SizeId already exists." });
+			}
+
+			if (await _context.Products.AnyAsync(p => p.Name == product.Name && p.Id != id))
+			{
+				return Conflict(new { message = "Product name already exists." });
+			}
+
 			var existingProduct = await _context.Products.FindAsync(id);
 
 			if (existingProduct == null)
@@ -216,6 +227,16 @@ namespace shoesshop_api.Controllers
 			if (_context.Products == null)
 			{
 				return Problem("Entity set 'ShoesshopContext.Products' is null.");
+			}
+
+			if (await _context.Products.AnyAsync(p => p.ModelId == product.ModelId && p.ColorId == product.ColorId && p.SizeId == product.SizeId))
+			{
+				return Conflict(new { message = "A product with the same ModelId, ColorId, and SizeId already exists." });
+			}
+
+			if (await _context.Products.AnyAsync(p => p.Name == product.Name))
+			{
+				return Conflict(new { message = "Product name already exists." });
 			}
 
 			string fileName = null;
