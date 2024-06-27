@@ -287,6 +287,31 @@ namespace shoesshop_api.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				var errors = new List<string>();
+
+				var userByUserName = await _userManager.FindByNameAsync(model.UserName);
+				if (userByUserName != null)
+				{
+					errors.Add("DuplicateUserName");
+				}
+
+				var userByPhoneNumber = await _userManager.Users.AnyAsync(u => u.PhoneNumber == model.PhoneNumber);
+				if (userByPhoneNumber)
+				{
+					errors.Add("Employee with the same PhoneNumber already exists.");
+				}
+
+				var userByEmail = await _userManager.Users.AnyAsync(u => u.Email == model.Email);
+				if (userByEmail)
+				{
+					errors.Add("Employee with the same Email already exists.");
+				}
+
+				if (errors.Count > 0)
+				{
+					return Conflict(new { messages = errors });
+				}
+
 				if (!await _roleManager.RoleExistsAsync("Employee"))
 				{
 					var roleResult = await _roleManager.CreateAsync(new IdentityRole("Employee"));
@@ -352,6 +377,25 @@ namespace shoesshop_api.Controllers
 				if (user == null)
 				{
 					return NotFound(new { result = "Employee not found." });
+				}
+
+				var errors = new List<string>();
+
+				var userByPhoneNumber = await _userManager.Users.AnyAsync(u => u.PhoneNumber == model.PhoneNumber && u.Id != id);
+				if (userByPhoneNumber)
+				{
+					errors.Add("Employee with the same PhoneNumber already exists.");
+				}
+
+				var userByEmail = await _userManager.Users.AnyAsync(u => u.Email == model.Email && u.Id != id);
+				if (userByEmail)
+				{
+					errors.Add("Employee with the same Email already exists.");
+				}
+
+				if (errors.Count > 0)
+				{
+					return Conflict(new { messages = errors });
 				}
 
 				user.Name = model.Name ?? user.Name;
