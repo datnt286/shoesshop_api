@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -187,6 +188,11 @@ namespace shoesshop_api.Controllers
 				return BadRequest();
 			}
 
+			if (await _context.Models.AnyAsync(m => m.Name == model.Name && m.Id != id))
+			{
+				return Conflict(new { message = "Model name already exists." });
+			}
+
 			var existingModel = await _context.Models.FindAsync(id);
 
 			if (existingModel == null)
@@ -272,6 +278,11 @@ namespace shoesshop_api.Controllers
 			if (_context.Models == null)
 			{
 				return Problem("Entity set 'ShoesshopContext.Models' is null.");
+			}
+
+			if (await _context.Models.AnyAsync(m => m.Name == model.Name))
+			{
+				return Conflict(new { message = "Model name already exists." });
 			}
 
 			_context.Models.Add(model);

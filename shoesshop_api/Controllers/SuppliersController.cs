@@ -113,11 +113,6 @@ namespace shoesshop_api.Controllers
 				errors.Add("Supplier with the same Email already exists.");
 			}
 
-			if (await _context.Suppliers.AnyAsync(s => s.Address == supplier.Address && s.Id != id))
-			{
-				errors.Add("Supplier with the same Address already exists.");
-			}
-
 			if (errors.Count > 0)
 			{
 				return Conflict(new { messages = errors });
@@ -169,11 +164,6 @@ namespace shoesshop_api.Controllers
 			if (await _context.Suppliers.AnyAsync(s => s.Email == supplier.Email))
 			{
 				errors.Add("Supplier with the same Email already exists.");
-			}
-
-			if (await _context.Suppliers.AnyAsync(s => s.Address == supplier.Address))
-			{
-				errors.Add("Supplier with the same Address already exists.");
 			}
 
 			if (errors.Count > 0)
