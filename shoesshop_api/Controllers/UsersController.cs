@@ -537,6 +537,25 @@ namespace shoesshop_api.Controllers
 					return NotFound(new { result = "Customer not found." });
 				}
 
+				var errors = new List<string>();
+
+				var userByPhoneNumber = await _userManager.Users.AnyAsync(u => u.PhoneNumber == model.PhoneNumber && u.Id != id);
+				if (userByPhoneNumber)
+				{
+					errors.Add("Customer with the same PhoneNumber already exists.");
+				}
+
+				var userByEmail = await _userManager.Users.AnyAsync(u => u.Email == model.Email && u.Id != id);
+				if (userByEmail)
+				{
+					errors.Add("Customer with the same Email already exists.");
+				}
+
+				if (errors.Count > 0)
+				{
+					return Conflict(new { messages = errors });
+				}
+
 				user.Name = model.Name ?? user.Name;
 				user.Email = model.Email ?? user.Email;
 				user.PhoneNumber = model.PhoneNumber ?? user.PhoneNumber;
