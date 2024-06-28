@@ -42,6 +42,24 @@ namespace shoesshop_api.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				var errors = new List<string>();
+
+				var userByUserName = await _userManager.FindByNameAsync(request.UserName);
+				if (userByUserName != null)
+				{
+					errors.Add("DuplicateUserName");
+				}
+
+				if (await _userManager.Users.AnyAsync(u => u.Email == request.Email))
+				{
+					errors.Add("Employee with the same Email already exists.");
+				}
+
+				if (errors.Count > 0)
+				{
+					return Conflict(new { messages = errors });
+				}
+
 				if (!await _roleManager.RoleExistsAsync("Customer"))
 				{
 					var roleResult = await _roleManager.CreateAsync(new IdentityRole("Customer"));
@@ -118,6 +136,23 @@ namespace shoesshop_api.Controllers
 				if (user == null)
 				{
 					return NotFound(new { result = "User not found." });
+				}
+
+				var errors = new List<string>();
+
+				if (await _userManager.Users.AnyAsync(u => u.PhoneNumber == user.PhoneNumber && u.Id != user.Id))
+				{
+					errors.Add("User with the same PhoneNumber already exists.");
+				}
+
+				if (await _userManager.Users.AnyAsync(u => u.Email == user.Email && u.Id != user.Id))
+				{
+					errors.Add("User with the same Email already exists.");
+				}
+
+				if (errors.Count > 0)
+				{
+					return Conflict(new { messages = errors });
 				}
 
 				user.Name = request.Name ?? user.Name;
@@ -295,14 +330,12 @@ namespace shoesshop_api.Controllers
 					errors.Add("DuplicateUserName");
 				}
 
-				var userByPhoneNumber = await _userManager.Users.AnyAsync(u => u.PhoneNumber == model.PhoneNumber);
-				if (userByPhoneNumber)
+				if (await _userManager.Users.AnyAsync(u => u.PhoneNumber == model.PhoneNumber))
 				{
 					errors.Add("Employee with the same PhoneNumber already exists.");
 				}
 
-				var userByEmail = await _userManager.Users.AnyAsync(u => u.Email == model.Email);
-				if (userByEmail)
+				if (await _userManager.Users.AnyAsync(u => u.Email == model.Email))
 				{
 					errors.Add("Employee with the same Email already exists.");
 				}
@@ -381,14 +414,12 @@ namespace shoesshop_api.Controllers
 
 				var errors = new List<string>();
 
-				var userByPhoneNumber = await _userManager.Users.AnyAsync(u => u.PhoneNumber == model.PhoneNumber && u.Id != id);
-				if (userByPhoneNumber)
+				if (await _userManager.Users.AnyAsync(u => u.PhoneNumber == model.PhoneNumber && u.Id != id))
 				{
 					errors.Add("Employee with the same PhoneNumber already exists.");
 				}
 
-				var userByEmail = await _userManager.Users.AnyAsync(u => u.Email == model.Email && u.Id != id);
-				if (userByEmail)
+				if (await _userManager.Users.AnyAsync(u => u.Email == model.Email && u.Id != id))
 				{
 					errors.Add("Employee with the same Email already exists.");
 				}
@@ -410,6 +441,10 @@ namespace shoesshop_api.Controllers
 				{
 					var passwordHasher = new PasswordHasher<User>();
 					user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
+				}
+				else
+				{
+					user.PasswordHash = user.PasswordHash;
 				}
 
 				if (avatar != null && avatar.Length > 0)
@@ -539,14 +574,12 @@ namespace shoesshop_api.Controllers
 
 				var errors = new List<string>();
 
-				var userByPhoneNumber = await _userManager.Users.AnyAsync(u => u.PhoneNumber == model.PhoneNumber && u.Id != id);
-				if (userByPhoneNumber)
+				if (await _userManager.Users.AnyAsync(u => u.PhoneNumber == model.PhoneNumber && u.Id != id))
 				{
 					errors.Add("Customer with the same PhoneNumber already exists.");
 				}
 
-				var userByEmail = await _userManager.Users.AnyAsync(u => u.Email == model.Email && u.Id != id);
-				if (userByEmail)
+				if (await _userManager.Users.AnyAsync(u => u.Email == model.Email && u.Id != id))
 				{
 					errors.Add("Customer with the same Email already exists.");
 				}
@@ -567,6 +600,10 @@ namespace shoesshop_api.Controllers
 				{
 					var passwordHasher = new PasswordHasher<User>();
 					user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
+				}
+				else
+				{
+					user.PasswordHash = user.PasswordHash;
 				}
 
 				if (avatar != null && avatar.Length > 0)
