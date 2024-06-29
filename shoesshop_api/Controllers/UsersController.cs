@@ -437,14 +437,10 @@ namespace shoesshop_api.Controllers
 				user.Description = model.Description ?? user.Description;
 				user.Status = model.Status;
 
-				if (!string.IsNullOrEmpty(model.Password))
+				if (!string.IsNullOrEmpty(model.Password) && model.Password != "undefined")
 				{
 					var passwordHasher = new PasswordHasher<User>();
 					user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
-				}
-				else
-				{
-					user.PasswordHash = user.PasswordHash;
 				}
 
 				if (avatar != null && avatar.Length > 0)
@@ -596,14 +592,10 @@ namespace shoesshop_api.Controllers
 				user.Description = model.Description ?? user.Description;
 				user.Status = model.Status;
 
-				if (!string.IsNullOrEmpty(model.Password))
+				if (!string.IsNullOrEmpty(model.Password) && model.Password != "undefined")
 				{
 					var passwordHasher = new PasswordHasher<User>();
 					user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
-				}
-				else
-				{
-					user.PasswordHash = user.PasswordHash;
 				}
 
 				if (avatar != null && avatar.Length > 0)
