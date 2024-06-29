@@ -120,7 +120,7 @@ namespace shoesshop_api.Controllers
 					}
 					return Unauthorized("User is not an employee.");
 				}
-				return Unauthorized();
+				return Unauthorized("Invalid username or password.");
 			}
 			return BadRequest(ModelState);
 		}
