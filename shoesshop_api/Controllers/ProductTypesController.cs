@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -30,6 +31,58 @@ namespace shoesshop_api.Controllers
 				return NotFound();
 			}
 			return await _context.ProductTypes.ToListAsync();
+		}
+
+		// GET: api/ProductTypes/paged
+		[HttpGet("paged")]
+		public async Task<ActionResult<IEnumerable<Brand>>> GetPagedProductTypes(int currentPage = 1, int pageSize = 10)
+		{
+			if (_context.ProductTypes == null)
+			{
+				return NotFound();
+			}
+
+			if (currentPage <= 0 || pageSize <= 0)
+			{
+				return BadRequest("Invalid page number or page size.");
+			}
+
+			var totalItems = await _context.ProductTypes
+				.Where(pt => pt.ParentProductTypeId != null)
+				.CountAsync();
+			var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+			if (currentPage > totalPages && totalPages > 0)
+			{
+				return BadRequest("Page number exceeds total pages.");
+			}
+
+			var items = await _context.ProductTypes
+				.Where(pt => pt.ParentProductTypeId != null)
+				.Skip((currentPage - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+			var result = new
+			{
+				items,
+				totalPages
+			};
+
+			return Ok(result);
+		}
+
+		// GET: api/ProductTypes/ParentProductTypes
+		[HttpGet("ParentProductTypes")]
+		public async Task<ActionResult<IEnumerable<ProductType>>> GetParentProductTypes()
+		{
+			if (_context.ProductTypes == null)
+			{
+				return NotFound();
+			}
+			return await _context.ProductTypes
+				.Where(pt => pt.ParentProductTypeId == null)
+				.ToListAsync();
 		}
 
 		// GET: api/ProductTypes/ChildProductTypes
@@ -73,6 +126,11 @@ namespace shoesshop_api.Controllers
 				return BadRequest();
 			}
 
+			if (await _context.ProductTypes.AnyAsync(pt => pt.Name == productType.Name && pt.Id != id))
+			{
+				return Conflict(new { message = "ProductType name already exists." });
+			}
+
 			_context.Entry(productType).State = EntityState.Modified;
 
 			try
@@ -103,6 +161,12 @@ namespace shoesshop_api.Controllers
 			{
 				return Problem("Entity set 'ShoesshopContext.ProductTypes'  is null.");
 			}
+
+			if (await _context.ProductTypes.AnyAsync(pt => pt.Name == productType.Name))
+			{
+				return Conflict(new { message = "ProductType name already exists." });
+			}
+
 			_context.ProductTypes.Add(productType);
 			await _context.SaveChangesAsync();
 

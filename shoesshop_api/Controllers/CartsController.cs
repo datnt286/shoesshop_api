@@ -42,6 +42,11 @@ namespace shoesshop_api.Controllers
 					return BadRequest($"Product with ID '{request.ProductId}' not found.");
 				}
 
+				if (product.Quantity < request.Quantity)
+				{
+					return BadRequest("Insufficient product quantity.");
+				}
+
 				var cart = await _context.Carts
 					.Include(c => c.CartDetails)
 					.FirstOrDefaultAsync(c => c.UserId == request.UserId);

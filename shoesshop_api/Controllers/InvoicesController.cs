@@ -54,6 +54,14 @@ namespace shoesshop_api.Controllers
 
 			foreach (var cartDetail in request.CartDetails)
 			{
+				var product = await _context.Products.FindAsync(cartDetail.ProductId);
+				if (product == null || product.Quantity < cartDetail.Quantity)
+				{
+					return BadRequest(new { message = "Product not available or insufficient quantity." });
+				}
+
+				product.Quantity -= cartDetail.Quantity;
+
 				var invoiceDetail = new InvoiceDetail
 				{
 					ProductId = cartDetail.ProductId,
