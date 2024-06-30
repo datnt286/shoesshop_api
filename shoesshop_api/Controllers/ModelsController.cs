@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,14 @@ namespace shoesshop_api.Controllers
 		private readonly ShoesshopContext _context;
 		private readonly IWebHostEnvironment _environment;
 		private readonly SlugGenerator _slugGenerator;
+		private readonly WishlistService _wishlistService;
 
-		public ModelsController(ShoesshopContext context, IWebHostEnvironment environment, SlugGenerator slugGenerator)
+		public ModelsController(ShoesshopContext context, IWebHostEnvironment environment, SlugGenerator slugGenerator, WishlistService wishlistService)
 		{
 			_context = context;
 			_environment = environment;
 			_slugGenerator = slugGenerator;
+			_wishlistService = wishlistService;
 		}
 
 		// GET: api/Models
@@ -149,13 +152,40 @@ namespace shoesshop_api.Controllers
 				.Take(pageSize)
 				.ToListAsync();
 
-			var result = new
-			{
-				items,
-				totalPages
-			};
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-			return Ok(result);
+			var result = items.Select(async item =>
+			{
+				var isInWishlist = userId != null && await _wishlistService.AreAnyProductsInWishlistAsync(userId, item.Id);
+
+				return new
+				{
+					item.Id,
+					item.SKU,
+					item.Name,
+					item.ProductTypeId,
+					item.BrandId,
+					item.SupplierId,
+					item.ImportPrice,
+					item.Price,
+					item.Description,
+					item.Status,
+					item.ProductType,
+					item.Brand,
+					item.Supplier,
+					item.Images,
+					item.Promotions,
+					IsInWishlist = isInWishlist
+				};
+			});
+
+			var finalResult = await Task.WhenAll(result);
+
+			return Ok(new
+			{
+				items = finalResult,
+				totalPages
+			});
 		}
 
 		// GET: api/Models/5

@@ -17,7 +17,17 @@ namespace shoesshop_api.Services
 		public async Task<bool> IsProductInWishlistAsync(string userId, int productId)
 		{
 			return await _context.WishlistDetails
+				.Include(wd => wd.Wishlist)
+				.Include(wd => wd.Product)
 				.AnyAsync(wd => wd.Wishlist.UserId == userId && wd.ProductId == productId);
+		}
+
+		public async Task<bool> AreAnyProductsInWishlistAsync(string userId, int modelId)
+		{
+			return await _context.WishlistDetails
+				.Include(wd => wd.Wishlist)
+				.Include(wd => wd.Product)
+				.AnyAsync(wd => wd.Wishlist.UserId == userId && wd.Product.ModelId == modelId);
 		}
 	}
 }

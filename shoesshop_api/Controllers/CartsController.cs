@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -91,6 +93,66 @@ namespace shoesshop_api.Controllers
 			{
 				return StatusCode(500, $"An error occurred: {ex.Message}");
 			}
+		}
+
+		// POST: api/Carts/AddToCart/Model/{modelId}
+		[Authorize]
+		[HttpPost("AddToCart/Model/{modelId}")]
+		public async Task<ActionResult> AddToCartByModelId(int modelId)
+		{
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			if (userId == null)
+			{
+				return BadRequest("User not found");
+			}
+
+			var product = await _context.Products
+				.Where(p => p.ModelId == modelId)
+				.FirstOrDefaultAsync();
+
+			if (product == null)
+			{
+				return BadRequest($"No product found for Model ID '{modelId}'.");
+			}
+
+			var cart = await _context.Carts
+				.Include(c => c.CartDetails)
+				.FirstOrDefaultAsync(c => c.UserId == userId);
+
+			if (cart == null)
+			{
+				cart = new Cart
+				{
+					UserId = userId,
+					CreatedDate = DateTime.Now,
+					Status = 1,
+					CartDetails = new List<CartDetail>()
+				};
+				_context.Carts.Add(cart);
+			}
+
+			var existingCartDetail = cart.CartDetails.FirstOrDefault(cd => cd.ProductId == product.Id);
+
+			if (existingCartDetail != null)
+			{
+				existingCartDetail.Quantity += 1;
+				existingCartDetail.Amount += product.Price;
+			}
+			else
+			{
+				var cartDetail = new CartDetail
+				{
+					ProductId = product.Id,
+					Price = product.Price,
+					Quantity = 1,
+					Amount = product.Price,
+				};
+
+				cart.CartDetails.Add(cartDetail);
+			}
+
+			await _context.SaveChangesAsync();
+			return Ok("Product added to cart successfully.");
 		}
 
 		// GET: api/Carts/CartDetails/User/{userId}

@@ -25,59 +25,101 @@ namespace shoesshop_api.Controllers
 			_context = context;
 		}
 
-		// POST: api/Wishlists/AddToWishlist
+		// POST: api/Wishlists/AddToWishlist/{productId}
 		[Authorize]
-		[HttpPost("AddToWishlist")]
-		public async Task<ActionResult> AddToWishlist([FromBody] AddToWishlistRequest request)
+		[HttpPost("AddToWishlist/{productId}")]
+		public async Task<ActionResult> AddToWishlist(int productId)
 		{
-			try
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			if (userId == null)
 			{
-				var user = await _context.Users.FindAsync(request.UserId);
-				if (user == null)
-				{
-					return BadRequest($"User with ID '{request.UserId}' not found.");
-				}
-
-				var product = await _context.Products.FindAsync(request.ProductId);
-				if (product == null)
-				{
-					return BadRequest($"Product with ID '{request.ProductId}' not found.");
-				}
-
-				var wishlist = await _context.Wishlists
-					.Include(w => w.WishlistDetails)
-					.FirstOrDefaultAsync(w => w.UserId == request.UserId);
-
-				if (wishlist == null)
-				{
-					wishlist = new Wishlist
-					{
-						UserId = request.UserId,
-						WishlistDetails = new List<WishlistDetail>()
-					};
-					_context.Wishlists.Add(wishlist);
-				}
-
-				var existingCartDetail = wishlist.WishlistDetails.FirstOrDefault(wd => wd.ProductId == request.ProductId);
-
-				if (existingCartDetail == null)
-				{
-					var wishlistDetail = new WishlistDetail
-					{
-						ProductId = request.ProductId,
-					};
-
-					wishlist.WishlistDetails.Add(wishlistDetail);
-				}
-
-				await _context.SaveChangesAsync();
-
-				return Ok("Product added to wishlist successfully.");
+				return BadRequest("User not found");
 			}
-			catch (Exception ex)
+
+			var product = await _context.Products.FindAsync(productId);
+			if (product == null)
 			{
-				return StatusCode(500, $"An error occurred: {ex.Message}");
+				return BadRequest($"Product with ID '{productId}' not found.");
 			}
+
+			var wishlist = await _context.Wishlists
+				.Include(w => w.WishlistDetails)
+				.FirstOrDefaultAsync(w => w.UserId == userId);
+
+			if (wishlist == null)
+			{
+				wishlist = new Wishlist
+				{
+					UserId = userId,
+					WishlistDetails = new List<WishlistDetail>()
+				};
+				_context.Wishlists.Add(wishlist);
+			}
+
+			var existingCartDetail = wishlist.WishlistDetails.FirstOrDefault(wd => wd.ProductId == productId);
+
+			if (existingCartDetail == null)
+			{
+				var wishlistDetail = new WishlistDetail
+				{
+					ProductId = productId,
+				};
+
+				wishlist.WishlistDetails.Add(wishlistDetail);
+			}
+
+			await _context.SaveChangesAsync();
+			return Ok("Product added to wishlist successfully.");
+		}
+
+		// POST: api/Wishlists/AddToWishlist/Model/{modelId}
+		[Authorize]
+		[HttpPost("AddToWishlist/Model/{modelId}")]
+		public async Task<ActionResult> AddToWishlistByModelId(int modelId)
+		{
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			if (userId == null)
+			{
+				return BadRequest("User not found");
+			}
+
+			var product = await _context.Products
+				.Where(p => p.ModelId == modelId)
+				.FirstOrDefaultAsync();
+
+			if (product == null)
+			{
+				return BadRequest($"No product found for Model ID '{modelId}'.");
+			}
+
+			var wishlist = await _context.Wishlists
+				.Include(w => w.WishlistDetails)
+				.FirstOrDefaultAsync(w => w.UserId == userId);
+
+			if (wishlist == null)
+			{
+				wishlist = new Wishlist
+				{
+					UserId = userId,
+					WishlistDetails = new List<WishlistDetail>()
+				};
+				_context.Wishlists.Add(wishlist);
+			}
+
+			var existingWishlistDetail = wishlist.WishlistDetails.FirstOrDefault(wd => wd.ProductId == product.Id);
+
+			if (existingWishlistDetail == null)
+			{
+				var wishlistDetail = new WishlistDetail
+				{
+					ProductId = product.Id,
+				};
+
+				wishlist.WishlistDetails.Add(wishlistDetail);
+			}
+
+			await _context.SaveChangesAsync();
+			return Ok("Product added to wishlist successfully.");
 		}
 
 		// GET: api/Wishlists/WishlistDetails/User/{userId}
@@ -166,6 +208,40 @@ namespace shoesshop_api.Controllers
 			if (wishlistDetail == null)
 			{
 				return NotFound();
+			}
+
+			_context.WishlistDetails.Remove(wishlistDetail);
+			await _context.SaveChangesAsync();
+
+			return NoContent();
+		}
+
+		// DELETE: api/Wishlists/DeleteWishlistDetail/Model/{modelId}
+		[HttpDelete("DeleteWishlistDetail/Model/{modelId}")]
+		public async Task<IActionResult> DeleteWishlistDetailByModelId(int modelId)
+		{
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			if (userId == null)
+			{
+				return BadRequest("User not found");
+			}
+
+			var product = await _context.Products
+				.Where(p => p.ModelId == modelId)
+				.FirstOrDefaultAsync();
+
+			if (product == null)
+			{
+				return NotFound($"No product found for Model ID '{modelId}'.");
+			}
+
+			var wishlistDetail = await _context.WishlistDetails
+				.Include(wd => wd.Wishlist)
+				.FirstOrDefaultAsync(wd => wd.ProductId == product.Id && wd.Wishlist.UserId == userId);
+
+			if (wishlistDetail == null)
+			{
+				return NotFound("Product not found in wishlist.");
 			}
 
 			_context.WishlistDetails.Remove(wishlistDetail);
