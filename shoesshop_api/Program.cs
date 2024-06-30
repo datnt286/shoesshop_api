@@ -16,7 +16,8 @@ var configuration = builder.Configuration;
 builder.Services.AddDbContext<ShoesshopContext>(options =>
 	options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddSingleton<SlugGenerator>();
+builder.Services.AddScoped<SlugGenerator>();
+builder.Services.AddScoped<WishlistService>();
 
 // Configure CORS
 builder.Services.AddCors(options =>

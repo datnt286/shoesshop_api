@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -135,6 +137,32 @@ namespace shoesshop_api.Controllers
 		public async Task<IActionResult> DeleteWishlistDetail(int id)
 		{
 			var wishlistDetail = await _context.WishlistDetails.FindAsync(id);
+			if (wishlistDetail == null)
+			{
+				return NotFound();
+			}
+
+			_context.WishlistDetails.Remove(wishlistDetail);
+			await _context.SaveChangesAsync();
+
+			return NoContent();
+		}
+
+		// DELETE: api/Wishlists/DeleteWishlistDetailByProductId/{productId}
+		[Authorize]
+		[HttpDelete("DeleteWishlistDetailByProductId/{productId}")]
+		public async Task<IActionResult> DeleteWishlistDetailByProductId(int productId)
+		{
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			if (userId == null)
+			{
+				return BadRequest("User not found");
+			}
+
+			var wishlistDetail = await _context.WishlistDetails
+				.Include(wd => wd.Wishlist)
+				.FirstOrDefaultAsync(wd => wd.ProductId == productId && wd.Wishlist.UserId == userId);
+
 			if (wishlistDetail == null)
 			{
 				return NotFound();

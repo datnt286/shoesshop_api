@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,14 @@ namespace shoesshop_api.Controllers
 		private readonly ShoesshopContext _context;
 		private readonly IWebHostEnvironment _environment;
 		private readonly SlugGenerator _slugGenerator;
+		private readonly WishlistService _wishlistService;
 
-		public ProductsController(ShoesshopContext context, IWebHostEnvironment environment, SlugGenerator slugGenerator)
+		public ProductsController(ShoesshopContext context, IWebHostEnvironment environment, SlugGenerator slugGenerator, WishlistService wishlistService)
 		{
 			_context = context;
 			_environment = environment;
 			_slugGenerator = slugGenerator;
+			_wishlistService = wishlistService;
 		}
 
 		// GET: api/Products
@@ -38,9 +41,9 @@ namespace shoesshop_api.Controllers
 			return await _context.Products.ToListAsync();
 		}
 
-		// GET: api/Products/modelId/{modelId}
-		[HttpGet("modelId/{modelId}")]
-		public async Task<ActionResult<IEnumerable<Product>>> GetProductsByModelId(int modelId)
+		// GET: api/Products/Model/{modelId}
+		[HttpGet("Model/{modelId}")]
+		public async Task<ActionResult<IEnumerable<object>>> GetProductsByModelId(int modelId)
 		{
 			if (_context.Products == null)
 			{
@@ -56,7 +59,31 @@ namespace shoesshop_api.Controllers
 				return NotFound();
 			}
 
-			return products;
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var result = new List<object>();
+
+			foreach (var product in products)
+			{
+				var isInWishlist = userId != null ? await _wishlistService.IsProductInWishlistAsync(userId, product.Id) : false;
+
+				result.Add(new
+				{
+					product.Id,
+					product.Name,
+					product.ModelId,
+					product.ColorId,
+					product.SizeId,
+					product.Quantity,
+					product.ImportPrice,
+					product.Price,
+					product.Image,
+					product.Description,
+					product.Status,
+					IsInWishlist = isInWishlist
+				});
+			}
+
+			return Ok(result);
 		}
 
 		// GET: api/Products/paged/model/{modelId}
