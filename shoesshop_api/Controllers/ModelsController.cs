@@ -101,6 +101,7 @@ namespace shoesshop_api.Controllers
 		public async Task<ActionResult<IEnumerable<Model>>> GetPagedModels(
 			[FromQuery] string? keyword = null,
 			[FromQuery] int? brandId = null,
+			[FromQuery] int[]? productTypeIds = null,
 			[FromQuery] int[]? colorIds = null,
 			[FromQuery] int[]? sizeIds = null,
 			int currentPage = 1,
@@ -128,6 +129,11 @@ namespace shoesshop_api.Controllers
 				query = query.Where(m => m.BrandId == brandId.Value);
 			}
 
+			if (productTypeIds != null && productTypeIds.Length > 0)
+			{
+				query = query.Where(m => productTypeIds.Contains(m.ProductTypeId));
+			}
+
 			if (colorIds != null && colorIds.Length > 0)
 			{
 				query = query.Where(m => m.Products.Any(p => colorIds.Contains(p.ColorId)));
@@ -152,38 +158,9 @@ namespace shoesshop_api.Controllers
 				.Take(pageSize)
 				.ToListAsync();
 
-			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-			var result = items.Select(async item =>
-			{
-				var isInWishlist = userId != null && await _wishlistService.AreAnyProductsInWishlistAsync(userId, item.Id);
-
-				return new
-				{
-					item.Id,
-					item.SKU,
-					item.Name,
-					item.ProductTypeId,
-					item.BrandId,
-					item.SupplierId,
-					item.ImportPrice,
-					item.Price,
-					item.Description,
-					item.Status,
-					item.ProductType,
-					item.Brand,
-					item.Supplier,
-					item.Images,
-					item.Promotions,
-					IsInWishlist = isInWishlist
-				};
-			});
-
-			var finalResult = await Task.WhenAll(result);
-
 			return Ok(new
 			{
-				items = finalResult,
+				items,
 				totalPages
 			});
 		}
