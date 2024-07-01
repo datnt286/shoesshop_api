@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -113,7 +114,10 @@ namespace shoesshop_api.Controllers
 				{
 					var user = await _userManager.FindByNameAsync(request.UserName);
 
-					if (await _userManager.IsInRoleAsync(user, "Employee"))
+					if (await _userManager.IsInRoleAsync(user, "Manager") ||
+						await _userManager.IsInRoleAsync(user, "SalesStaff") ||
+						await _userManager.IsInRoleAsync(user, "WarehouseStaff") ||
+						await _userManager.IsInRoleAsync(user, "Shipper"))
 					{
 						var token = await GenerateJwtToken(user);
 						return Ok(new { token });
@@ -241,15 +245,9 @@ namespace shoesshop_api.Controllers
 				new Claim("email", user.Email ?? string.Empty),
 				new Claim("phoneNumber", user.PhoneNumber ?? string.Empty),
 				new Claim("address", user.Address ?? string.Empty),
-				new Claim("avatar", user.Avatar ?? string.Empty)
+				new Claim("avatar", user.Avatar ?? string.Empty),
+				new Claim("role", user.Role ?? string.Empty),
 			};
-
-			var roles = await _userManager.GetRolesAsync(user);
-
-			foreach (var role in roles)
-			{
-				claims.Add(new Claim("role", role));
-			}
 
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -273,16 +271,14 @@ namespace shoesshop_api.Controllers
 				return BadRequest("Invalid page number or page size.");
 			}
 
-			var query = await _userManager.GetUsersInRoleAsync("Employee");
+			var query = _userManager.Users.Where(u => u.Role == "Manager" || u.Role == "SalesStaff" || u.Role == "WarehouseStaff" || u.Role == "Shipper");
 
 			if (!string.IsNullOrEmpty(keyword))
 			{
-				query = query
-					.Where(user => user.Name != null && user.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase))
-					.ToList();
+				query = query.Where(user => user.Name != null && user.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase));
 			}
 
-			var totalItems = query.Count;
+			var totalItems = await query.CountAsync();
 			var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
 			if (currentPage > totalPages && totalPages > 0)
@@ -290,7 +286,7 @@ namespace shoesshop_api.Controllers
 				return BadRequest("Page number exceeds total pages.");
 			}
 
-			var items = query
+			var items = await query
 				.Skip((currentPage - 1) * pageSize)
 				.Take(pageSize)
 				.Select(user => new
@@ -302,10 +298,12 @@ namespace shoesshop_api.Controllers
 					user.PhoneNumber,
 					user.Address,
 					user.Avatar,
+					user.Role,
+					user.Salary,
 					user.Status,
-					user.Salary
+					user.Description,
 				})
-				.ToList();
+				.ToListAsync();
 
 			var result = new
 			{
@@ -345,9 +343,9 @@ namespace shoesshop_api.Controllers
 					return Conflict(new { messages = errors });
 				}
 
-				if (!await _roleManager.RoleExistsAsync("Employee"))
+				if (!await _roleManager.RoleExistsAsync(model.Role))
 				{
-					var roleResult = await _roleManager.CreateAsync(new IdentityRole("Employee"));
+					var roleResult = await _roleManager.CreateAsync(new IdentityRole(model.Role));
 					if (!roleResult.Succeeded)
 					{
 						return StatusCode(StatusCodes.Status500InternalServerError, new { result = "Error creating role!" });
@@ -362,6 +360,7 @@ namespace shoesshop_api.Controllers
 					Email = model.Email,
 					PhoneNumber = model.PhoneNumber,
 					Address = model.Address,
+					Role = model.Role,
 					Salary = model.Salary,
 					Description = model.Description,
 					Status = model.Status
@@ -391,7 +390,7 @@ namespace shoesshop_api.Controllers
 
 				if (result.Succeeded)
 				{
-					await _userManager.AddToRoleAsync(user, "Employee");
+					await _userManager.AddToRoleAsync(user, model.Role);
 					return Ok(new { result = "Employee account created successfully." });
 				}
 				return BadRequest(result.Errors);
@@ -429,10 +428,28 @@ namespace shoesshop_api.Controllers
 					return Conflict(new { messages = errors });
 				}
 
+				if (!await _roleManager.RoleExistsAsync(model.Role))
+				{
+					var roleResult = await _roleManager.CreateAsync(new IdentityRole(model.Role));
+					if (!roleResult.Succeeded)
+					{
+						return StatusCode(StatusCodes.Status500InternalServerError, new { result = "Error creating role!" });
+					}
+				}
+
+				var currentRoles = await _userManager.GetRolesAsync(user);
+				var removeRolesResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+
+				if (!removeRolesResult.Succeeded)
+				{
+					return StatusCode(StatusCodes.Status500InternalServerError, new { result = "Error removing current roles!" });
+				}
+
 				user.Name = model.Name ?? user.Name;
 				user.Email = model.Email ?? user.Email;
 				user.PhoneNumber = model.PhoneNumber ?? user.PhoneNumber;
 				user.Address = model.Address ?? user.Address;
+				user.Role = model.Role;
 				user.Salary = model.Salary;
 				user.Description = model.Description ?? user.Description;
 				user.Status = model.Status;
@@ -476,6 +493,7 @@ namespace shoesshop_api.Controllers
 
 				if (result.Succeeded)
 				{
+					await _userManager.AddToRoleAsync(user, model.Role);
 					return Ok(new { result = "Employee account updated successfully." });
 				}
 				return BadRequest(result.Errors);

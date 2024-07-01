@@ -10,6 +10,7 @@ namespace shoesshop_api.Models
 		public string? Description { get; set; }
 		public int Status { get; set; }
 
+		public string? Role { get; set; }
 		public int? Salary { get; set; }
 
 		public List<GoodsReceivedNote>? GoodsReceivedNotes { get; set; }
