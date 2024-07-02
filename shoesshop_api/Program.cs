@@ -18,6 +18,7 @@ builder.Services.AddDbContext<ShoesshopContext>(options =>
 
 builder.Services.AddScoped<SlugGenerator>();
 builder.Services.AddScoped<WishlistService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Configure CORS
 builder.Services.AddCors(options =>
