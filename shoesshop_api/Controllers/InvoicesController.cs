@@ -123,12 +123,25 @@ namespace shoesshop_api.Controllers
 		}
 
 		// GET: api/Invoices/paged
+		[Authorize]
 		[HttpGet("paged")]
 		public async Task<ActionResult<IEnumerable<Invoice>>> GetPagedInvoices(int? status = null, int currentPage = 1, int pageSize = 10)
 		{
 			if (_context.Invoices == null)
 			{
 				return NotFound();
+			}
+
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			if (userId == null)
+			{
+				return BadRequest("UserId not found");
+			}
+
+			var user = await _context.Users.FindAsync(userId);
+			if (user == null)
+			{
+				return BadRequest("User not found");
 			}
 
 			if (currentPage <= 0 || pageSize <= 0)
@@ -138,7 +151,11 @@ namespace shoesshop_api.Controllers
 
 			IQueryable<Invoice> query = _context.Invoices;
 
-			if (status.HasValue && status != 0)
+			if (user.Role == "Shipper" && (status == 0 || status == null))
+			{
+				query = query.Where(i => i.Status == 3 || i.Status == 4 || i.Status == 5);
+			}
+			else if (status.HasValue && status != 0)
 			{
 				query = query.Where(i => i.Status == status);
 			}
