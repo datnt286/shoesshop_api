@@ -12,7 +12,7 @@ using shoesshop_api.Data;
 namespace shoesshop_api.Migrations
 {
     [DbContext(typeof(ShoesshopContext))]
-    [Migration("20240705074051_init")]
+    [Migration("20240705103243_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -459,9 +459,6 @@ namespace shoesshop_api.Migrations
 
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("int");
-
-                    b.Property<string>("SKU")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

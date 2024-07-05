@@ -30,39 +30,39 @@ VALUES ('Slider 1', 'slider-1.png', 1),
 		('Slider 3', 'slider-3.png', 1)
 
 -- Thêm dữ liệu vào bảng Models
-INSERT INTO Models (SKU, Name, ProductTypeId, BrandId, SupplierId, ImportPrice, Price, Status)
-VALUES ('SKU001', 'Nike Air Force 1 07', 3, 1, 1, 3000000, 4000000, 1),
-	   ('SKU002', 'Nike Air Force 1 07 Easyon', 3, 1, 1, 3200000, 4200000, 1),
-       ('SKU003', 'Nike Air Force 1 07 LV8', 3, 1, 1, 3500000, 4500000, 1),
-       ('SKU004', 'Nike Air Force 1 07 LV8 Evo', 3, 1, 1, 3500000, 4500000, 1),
-	   ('SKU005', 'Nike Air Force 1 07 Next Nature SE', 3, 1, 1, 2500000, 3000000, 1),
-       ('SKU006', 'Nike Air Force 1 Low Evo', 3, 1, 1, 3500000, 4500000, 1),
-       ('SKU007', 'Nike Air Force 1 Shadow', 3, 1, 1, 3500000, 4500000, 1),
-       ('SKU008', 'Nike Air Jordan 1 Low', 3, 1, 1, 3000000, 4000000, 1),
-       ('SKU009', 'Nike Air Jordan 1 Mid', 4, 1, 1, 3500000, 4500000, 1),
-       ('SKU010', 'Nike Air Jordan 1 High', 4, 1, 1, 4000000, 5000000, 1),
+INSERT INTO Models (Name, ProductTypeId, BrandId, SupplierId, ImportPrice, Price, Status)
+VALUES ('Nike Air Force 1 07', 3, 1, 1, 3000000, 4000000, 1),
+	   ('Nike Air Force 1 07 Easyon', 3, 1, 1, 3200000, 4200000, 1),
+       ('Nike Air Force 1 07 LV8', 3, 1, 1, 3500000, 4500000, 1),
+       ('Nike Air Force 1 07 LV8 Evo', 3, 1, 1, 3500000, 4500000, 1),
+	   ('Nike Air Force 1 07 Next Nature SE', 3, 1, 1, 2500000, 3000000, 1),
+       ('Nike Air Force 1 Low Evo', 3, 1, 1, 3500000, 4500000, 1),
+       ('Nike Air Force 1 Shadow', 3, 1, 1, 3500000, 4500000, 1),
+       ('Nike Air Jordan 1 Low', 3, 1, 1, 3000000, 4000000, 1),
+       ('Nike Air Jordan 1 Mid', 4, 1, 1, 3500000, 4500000, 1),
+       ('Nike Air Jordan 1 High', 4, 1, 1, 4000000, 5000000, 1),
 
-	   ('SKU011', 'Adidas Avryn', 3, 2, 2, 2000000, 2600000, 1),
-	   ('SKU012', 'Adidas Ultraboost 1.0', 3, 2, 2, 2300000, 2900000, 1),
-	   ('SKU013', 'Adidas Pureboost 23', 3, 2, 2, 3000000, 3600000, 1),
-	   ('SKU014', 'Adidas Response Super', 3, 2, 2, 2500000, 3100000, 1),
-	   ('SKU015', 'Adidas Dropset 2 Earth', 3, 2, 2, 1800000, 2400000, 1),
+	   ('Adidas Avryn', 3, 2, 2, 2000000, 2600000, 1),
+	   ('Adidas Ultraboost 1.0', 3, 2, 2, 2300000, 2900000, 1),
+	   ('Adidas Pureboost 23', 3, 2, 2, 3000000, 3600000, 1),
+	   ('Adidas Response Super', 3, 2, 2, 2500000, 3100000, 1),
+	   ('Adidas Dropset 2 Earth', 3, 2, 2, 1800000, 2400000, 1),
 
-	   ('SKU016', 'Puma Rs-X 3D', 3, 3, 3, 2000000, 2500000, 1),
-	   ('SKU017', 'Puma Slipstream Expedition', 3, 3, 3, 2300000, 2800000, 1),
-	   ('SKU018', 'Puma Suede XL', 3, 3, 3, 2600000, 3100000, 1),
-	   ('SKU019', 'Puma Palermo Leather', 3, 3, 3, 2900000, 3400000, 1),
-	   ('SKU020', 'Puma 180 Perf', 3, 3, 3, 1800000, 2300000, 1),
+	   ('Puma Rs-X 3D', 3, 3, 3, 2000000, 2500000, 1),
+	   ('Puma Slipstream Expedition', 3, 3, 3, 2300000, 2800000, 1),
+	   ('Puma Suede XL', 3, 3, 3, 2600000, 3100000, 1),
+	   ('Puma Palermo Leather', 3, 3, 3, 2900000, 3400000, 1),
+	   ('Puma 180 Perf', 3, 3, 3, 1800000, 2300000, 1),
 
-	   ('SKU021', 'Vans Knu Skool', 3, 4, 4, 2000000, 2500000, 1),
-	   ('SKU022', 'Vans Old Skool', 3, 4, 4, 2200000, 2700000, 1),
-	   ('SKU023', 'Vans Ave 2.0', 3, 4, 4, 2400000, 2900000, 1),
-	   ('SKU024', 'Vans Cruze Too Comfycush', 3, 4, 4, 2600000, 3100000, 1),
-	   ('SKU025', 'Vans SK8 Hi', 4, 4, 4, 2800000, 3300000, 1),
+	   ('Vans Knu Skool', 3, 4, 4, 2000000, 2500000, 1),
+	   ('Vans Old Skool', 3, 4, 4, 2200000, 2700000, 1),
+	   ('Vans Ave 2.0', 3, 4, 4, 2400000, 2900000, 1),
+	   ('Vans Cruze Too Comfycush', 3, 4, 4, 2600000, 3100000, 1),
+	   ('Vans SK8 Hi', 4, 4, 4, 2800000, 3300000, 1),
 
-	   ('SKU026', N'Vớ', 6, 1, 1, 300000, 400000, 1),
-	   ('SKU027', N'Dây giày', 7, 1, 1, 200000, 300000, 1),
-	   ('SKU028', N'Miếng lót giày', 8, 1, 1, 100000, 200000, 1);
+	   (N'Vớ', 6, 1, 1, 300000, 400000, 1),
+	   (N'Dây giày', 7, 1, 1, 200000, 300000, 1),
+	   (N'Miếng lót giày', 8, 1, 1, 100000, 200000, 1);
 -- Thêm dữ liệu vào bảng Images
 INSERT INTO Images (Name, ModelId)
 VALUES ('nike-air-force-1-07-white-1.png', 1),

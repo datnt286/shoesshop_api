@@ -120,7 +120,6 @@ namespace shoesshop_api.Controllers
 				.Select(m => new
 				{
 					Id = m.Id,
-					SKU = m.SKU,
 					Name = m.Name,
 					ProductType = m.ProductType != null ? m.ProductType.Name : string.Empty,
 					Brand = m.Brand != null ? m.Brand.Name : string.Empty,
