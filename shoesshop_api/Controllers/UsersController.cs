@@ -46,7 +46,7 @@ namespace shoesshop_api.Controllers
 
 		[AllowAnonymous]
 		[HttpGet("google-login")]
-		[EnableCors("AllowAllOrigins")]
+		//[EnableCors("AllowAllOrigins")]
 		public IActionResult GoogleLogin()
 		{
 			var authenticationProperties = new AuthenticationProperties
