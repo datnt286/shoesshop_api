@@ -134,39 +134,6 @@ namespace shoesshop_api.Controllers
 			return Ok(models);
 		}
 
-		// GET: api/Models/new
-		[HttpGet("new")]
-		public async Task<ActionResult<IEnumerable<Model>>> GetNewModels()
-		{
-			if (_context.Models == null)
-			{
-				return NotFound();
-			}
-
-			var models = await _context.Models
-				.Include(m => m.Images)
-				.ToListAsync();
-
-			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-			var result = new List<object>();
-
-			foreach (var model in models)
-			{
-				var isInWishlist = userId != null && await _wishlistService.AreAnyProductsInWishlistAsync(userId, model.Id);
-
-				result.Add(new
-				{
-					model.Id,
-					model.Name,
-					model.Price,
-					model.Images,
-					IsInWishlist = isInWishlist,
-				});
-			}
-
-			return Ok(result);
-		}
-
 		// GET: api/Models/all
 		[HttpGet("all")]
 		public async Task<ActionResult<Model>> GetAllModels()
@@ -192,6 +159,80 @@ namespace shoesshop_api.Controllers
 				shoesModels,
 				accessoriesModels
 			};
+
+			return Ok(result);
+		}
+
+		// GET: api/Models/new
+		[HttpGet("new")]
+		public async Task<ActionResult<IEnumerable<Model>>> GetNewModels()
+		{
+			if (_context.Models == null)
+			{
+				return NotFound();
+			}
+
+			var models = await _context.Models
+				.Include(m => m.Images)
+				.OrderByDescending(m => m.Id)
+				.Take(8)
+				.ToListAsync();
+
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var result = new List<object>();
+
+			foreach (var model in models)
+			{
+				var isInWishlist = userId != null && await _wishlistService.AreAnyProductsInWishlistAsync(userId, model.Id);
+
+				result.Add(new
+				{
+					model.Id,
+					model.Name,
+					model.Price,
+					model.Images,
+					IsInWishlist = isInWishlist,
+				});
+			}
+
+			return Ok(result);
+		}
+
+		// GET: api/Models/best-selling
+		[HttpGet("best-selling")]
+		public async Task<ActionResult<IEnumerable<object>>> GetBestSellingModels()
+		{
+			var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+			var endDate = startDate.AddMonths(1);
+
+			var topSellingProductIds = await _context.InvoiceDetails
+				.Where(id => id.Invoice.CreateDate >= startDate && id.Invoice.CreateDate < endDate)
+				.GroupBy(id => id.ProductId)
+				.OrderByDescending(g => g.Sum(id => id.Quantity))
+				.Take(8)
+				.Select(g => g.Key)
+				.ToListAsync();
+
+			var result = new List<object>();
+
+			foreach (var productId in topSellingProductIds)
+			{
+				var product = await _context.Products
+					.Include(p => p.Model)
+					.ThenInclude(m => m.Images)
+					.FirstOrDefaultAsync(p => p.Id == productId);
+
+				if (product != null)
+				{
+					result.Add(new
+					{
+						product.Model.Id,
+						product.Model.Name,
+						product.Model.Price,
+						product.Model.Images
+					});
+				}
+			}
 
 			return Ok(result);
 		}

@@ -107,7 +107,7 @@ namespace shoesshop_api.Controllers
 			}
 
 			var product = await _context.Products
-				.Where(p => p.ModelId == modelId)
+				.Where(p => p.ModelId == modelId && p.Quantity > 0)
 				.FirstOrDefaultAsync();
 
 			if (product == null)
