@@ -303,6 +303,7 @@ namespace shoesshop_api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Total = table.Column<int>(type: "int", nullable: false),
                     ShippingFee = table.Column<int>(type: "int", nullable: false),
                     TotalPayment = table.Column<int>(type: "int", nullable: false),

@@ -12,8 +12,8 @@ using shoesshop_api.Data;
 namespace shoesshop_api.Migrations
 {
     [DbContext(typeof(ShoesshopContext))]
-    [Migration("20240704012852_add-paymentMethod")]
-    partial class addpaymentMethod
+    [Migration("20240705074051_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
