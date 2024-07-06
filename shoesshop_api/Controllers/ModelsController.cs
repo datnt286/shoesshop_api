@@ -245,6 +245,7 @@ namespace shoesshop_api.Controllers
 			[FromQuery] int[]? productTypeIds = null,
 			[FromQuery] int[]? colorIds = null,
 			[FromQuery] int[]? sizeIds = null,
+			[FromQuery] int? sort = null,
 			int currentPage = 1,
 			int pageSize = 10)
 		{
@@ -285,6 +286,18 @@ namespace shoesshop_api.Controllers
 				query = query.Where(m => m.Products.Any(p => sizeIds.Contains(p.SizeId)));
 			}
 
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var result = new List<object>();
+
+			if (sort.HasValue && sort == 2)
+			{
+				query = query.OrderByDescending(m => m.Id);
+			}
+			else
+			{
+				query = query.OrderBy(m => m.Id);
+			}
+
 			var totalItems = await query.CountAsync();
 			var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
@@ -298,9 +311,6 @@ namespace shoesshop_api.Controllers
 				.Skip((currentPage - 1) * pageSize)
 				.Take(pageSize)
 				.ToListAsync();
-
-			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-			var result = new List<object>();
 
 			foreach (var model in items)
 			{
