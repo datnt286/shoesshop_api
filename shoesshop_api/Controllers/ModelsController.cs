@@ -140,12 +140,16 @@ namespace shoesshop_api.Controllers
 		{
 			var allModels = await _context.Models.Include(m => m.Images).ToListAsync();
 			var shoesModels = await _context.Models
-				.Where(m => m.ProductType != null && m.ProductType.ParentProductTypeId == 1)
 				.Include(m => m.Images)
+				.Include(m => m.Products)
+				.Where(m => m.ProductType != null && m.ProductType.ParentProductTypeId == 1)
+				.Where(m => m.Products.Any(p => p.Quantity > 0))
 				.ToListAsync();
 			var accessoriesModels = await _context.Models
-				.Where(m => m.ProductType != null && m.ProductType.ParentProductTypeId == 2)
 				.Include(m => m.Images)
+				.Include(m => m.Products)
+				.Where(m => m.ProductType != null && m.ProductType.ParentProductTypeId == 2)
+				.Where(m => m.Products.Any(p => p.Quantity > 0))
 				.ToListAsync();
 
 			if (allModels == null || shoesModels == null || accessoriesModels == null)
@@ -174,6 +178,8 @@ namespace shoesshop_api.Controllers
 
 			var models = await _context.Models
 				.Include(m => m.Images)
+				.Include(m => m.Products)
+				.Where(m => m.Products.Any(p => p.Quantity > 0))
 				.OrderByDescending(m => m.Id)
 				.Take(8)
 				.ToListAsync();
@@ -209,7 +215,9 @@ namespace shoesshop_api.Controllers
 
 			var models = await _context.Models
 				.Include(m => m.Images)
+				.Include(m => m.Products)
 				.Where(m => m.BrandId == brandId)
+				.Where(m => m.Products.Any(p => p.Quantity > 0))
 				.Take(8)
 				.ToListAsync();
 
@@ -351,6 +359,8 @@ namespace shoesshop_api.Controllers
 
 			var items = await query
 				.Include(m => m.Images)
+				.Include(m => m.Products)
+				.Where(m => m.Products.Any(p => p.Quantity > 0))
 				.Skip((currentPage - 1) * pageSize)
 				.Take(pageSize)
 				.ToListAsync();
@@ -385,7 +395,12 @@ namespace shoesshop_api.Controllers
 				return NotFound();
 			}
 
-			var models = await _context.Models.Include(m => m.Images).Take(4).ToListAsync();
+			var models = await _context.Models
+				.Include(m => m.Images)
+				.Include(m => m.Products)
+				.Where(m => m.Products.Any(p => p.Quantity > 0))
+				.Take(4)
+				.ToListAsync();
 
 			return Ok(models);
 		}
