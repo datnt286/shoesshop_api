@@ -289,9 +289,17 @@ namespace shoesshop_api.Controllers
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			var result = new List<object>();
 
-			if (sort.HasValue && sort == 2)
+			if (sort == 2)
 			{
 				query = query.OrderByDescending(m => m.Id);
+			}
+			else if (sort == 3)
+			{
+				query = query.OrderBy(m => m.Price);
+			}
+			else if (sort == 4)
+			{
+				query = query.OrderByDescending(m => m.Price);
 			}
 			else
 			{
@@ -331,6 +339,20 @@ namespace shoesshop_api.Controllers
 				items = result,
 				totalPages
 			});
+		}
+
+		// GET: api/Models/featured
+		[HttpGet("featured")]
+		public async Task<ActionResult<IEnumerable<Model>>> GetFeaturedModels()
+		{
+			if (_context.Models == null)
+			{
+				return NotFound();
+			}
+
+			var models = await _context.Models.Include(m => m.Images).Take(4).ToListAsync();
+
+			return Ok(models);
 		}
 
 		// GET: api/Models/5
