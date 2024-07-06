@@ -198,6 +198,41 @@ namespace shoesshop_api.Controllers
 			return Ok(result);
 		}
 
+		// GET: api/Models/BrandId/{brandId}
+		[HttpGet("BrandId/{brandId}")]
+		public async Task<ActionResult<IEnumerable<Model>>> GetModelsByBrandId(int brandId)
+		{
+			if (_context.Models == null)
+			{
+				return NotFound();
+			}
+
+			var models = await _context.Models
+				.Include(m => m.Images)
+				.Where(m => m.BrandId == brandId)
+				.Take(8)
+				.ToListAsync();
+
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var result = new List<object>();
+
+			foreach (var model in models)
+			{
+				var isInWishlist = userId != null && await _wishlistService.AreAnyProductsInWishlistAsync(userId, model.Id);
+
+				result.Add(new
+				{
+					model.Id,
+					model.Name,
+					model.Price,
+					model.Images,
+					IsInWishlist = isInWishlist,
+				});
+			}
+
+			return Ok(result);
+		}
+
 		// GET: api/Models/best-selling
 		[HttpGet("best-selling")]
 		public async Task<ActionResult<IEnumerable<object>>> GetBestSellingModels()
