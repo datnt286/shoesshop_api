@@ -57,7 +57,7 @@ namespace shoesshop_api.Services
 		{
 			string slug = RemoveVietnameseDiacritics(productName.ToLowerInvariant());
 
-			slug = Regex.Replace(slug, @"[^a-z\s]", "");
+			slug = Regex.Replace(slug, @"[^a-z0-9\s]", "");
 			slug = Regex.Replace(slug, @"\s+", " ").Trim();
 			slug = slug.Replace(" ", "-");
 
