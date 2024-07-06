@@ -134,152 +134,6 @@ namespace shoesshop_api.Controllers
 			return Ok(models);
 		}
 
-		// GET: api/Models/all
-		[HttpGet("all")]
-		public async Task<ActionResult<Model>> GetAllModels()
-		{
-			var allModels = await _context.Models.Include(m => m.Images).ToListAsync();
-			var shoesModels = await _context.Models
-				.Include(m => m.Images)
-				.Include(m => m.Products)
-				.Where(m => m.ProductType != null && m.ProductType.ParentProductTypeId == 1)
-				.Where(m => m.Products.Any(p => p.Quantity > 0))
-				.ToListAsync();
-			var accessoriesModels = await _context.Models
-				.Include(m => m.Images)
-				.Include(m => m.Products)
-				.Where(m => m.ProductType != null && m.ProductType.ParentProductTypeId == 2)
-				.Where(m => m.Products.Any(p => p.Quantity > 0))
-				.ToListAsync();
-
-			if (allModels == null || shoesModels == null || accessoriesModels == null)
-			{
-				return NotFound();
-			}
-
-			var result = new
-			{
-				allModels,
-				shoesModels,
-				accessoriesModels
-			};
-
-			return Ok(result);
-		}
-
-		// GET: api/Models/new
-		[HttpGet("new")]
-		public async Task<ActionResult<IEnumerable<Model>>> GetNewModels()
-		{
-			if (_context.Models == null)
-			{
-				return NotFound();
-			}
-
-			var models = await _context.Models
-				.Include(m => m.Images)
-				.Include(m => m.Products)
-				.Where(m => m.Products.Any(p => p.Quantity > 0))
-				.OrderByDescending(m => m.Id)
-				.Take(8)
-				.ToListAsync();
-
-			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-			var result = new List<object>();
-
-			foreach (var model in models)
-			{
-				var isInWishlist = userId != null && await _wishlistService.AreAnyProductsInWishlistAsync(userId, model.Id);
-
-				result.Add(new
-				{
-					model.Id,
-					model.Name,
-					model.Price,
-					model.Images,
-					IsInWishlist = isInWishlist,
-				});
-			}
-
-			return Ok(result);
-		}
-
-		// GET: api/Models/BrandId/{brandId}
-		[HttpGet("BrandId/{brandId}")]
-		public async Task<ActionResult<IEnumerable<Model>>> GetModelsByBrandId(int brandId)
-		{
-			if (_context.Models == null)
-			{
-				return NotFound();
-			}
-
-			var models = await _context.Models
-				.Include(m => m.Images)
-				.Include(m => m.Products)
-				.Where(m => m.BrandId == brandId)
-				.Where(m => m.Products.Any(p => p.Quantity > 0))
-				.Take(8)
-				.ToListAsync();
-
-			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-			var result = new List<object>();
-
-			foreach (var model in models)
-			{
-				var isInWishlist = userId != null && await _wishlistService.AreAnyProductsInWishlistAsync(userId, model.Id);
-
-				result.Add(new
-				{
-					model.Id,
-					model.Name,
-					model.Price,
-					model.Images,
-					IsInWishlist = isInWishlist,
-				});
-			}
-
-			return Ok(result);
-		}
-
-		// GET: api/Models/best-selling
-		[HttpGet("best-selling")]
-		public async Task<ActionResult<IEnumerable<object>>> GetBestSellingModels()
-		{
-			var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-			var endDate = startDate.AddMonths(1);
-
-			var topSellingProductIds = await _context.InvoiceDetails
-				.Where(id => id.Invoice.CreateDate >= startDate && id.Invoice.CreateDate < endDate)
-				.GroupBy(id => id.ProductId)
-				.OrderByDescending(g => g.Sum(id => id.Quantity))
-				.Take(8)
-				.Select(g => g.Key)
-				.ToListAsync();
-
-			var result = new List<object>();
-
-			foreach (var productId in topSellingProductIds)
-			{
-				var product = await _context.Products
-					.Include(p => p.Model)
-					.ThenInclude(m => m.Images)
-					.FirstOrDefaultAsync(p => p.Id == productId);
-
-				if (product != null)
-				{
-					result.Add(new
-					{
-						product.Model.Id,
-						product.Model.Name,
-						product.Model.Price,
-						product.Model.Images
-					});
-				}
-			}
-
-			return Ok(result);
-		}
-
 		// GET: api/Models/paged
 		[HttpGet("paged")]
 		public async Task<ActionResult<IEnumerable<Model>>> GetPagedModels(
@@ -359,8 +213,6 @@ namespace shoesshop_api.Controllers
 
 			var items = await query
 				.Include(m => m.Images)
-				.Include(m => m.Products)
-				.Where(m => m.Products.Any(p => p.Quantity > 0))
 				.Skip((currentPage - 1) * pageSize)
 				.Take(pageSize)
 				.ToListAsync();
@@ -386,6 +238,113 @@ namespace shoesshop_api.Controllers
 			});
 		}
 
+		// GET: api/Models/all
+		[HttpGet("all")]
+		public async Task<ActionResult<Model>> GetAllModels()
+		{
+			var allModels = await _context.Models.Include(m => m.Images).Take(8).ToListAsync();
+			var shoesModels = await _context.Models
+				.Include(m => m.Images)
+				.Where(m => m.ProductType != null && m.ProductType.ParentProductTypeId == 1)
+				.Take(8)
+				.ToListAsync();
+			var accessoriesModels = await _context.Models
+				.Include(m => m.Images)
+				.Where(m => m.ProductType != null && m.ProductType.ParentProductTypeId == 2)
+				.Take(8)
+				.ToListAsync();
+
+			if (allModels == null || shoesModels == null || accessoriesModels == null)
+			{
+				return NotFound();
+			}
+
+			var result = new
+			{
+				allModels,
+				shoesModels,
+				accessoriesModels
+			};
+
+			return Ok(result);
+		}
+
+		// GET: api/Models/new
+		[HttpGet("new")]
+		public async Task<ActionResult<IEnumerable<Model>>> GetNewModels()
+		{
+			if (_context.Models == null)
+			{
+				return NotFound();
+			}
+
+			var models = await _context.Models
+				.Include(m => m.Images)
+				.Include(m => m.Products)
+				.Where(m => m.Products.Any(p => p.Quantity > 0))
+				.OrderByDescending(m => m.Id)
+				.Take(8)
+				.ToListAsync();
+
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var result = new List<object>();
+
+			foreach (var model in models)
+			{
+				var isInWishlist = userId != null && await _wishlistService.AreAnyProductsInWishlistAsync(userId, model.Id);
+
+				result.Add(new
+				{
+					model.Id,
+					model.Name,
+					model.Price,
+					model.Images,
+					IsInWishlist = isInWishlist,
+				});
+			}
+
+			return Ok(result);
+		}
+
+		// GET: api/Models/best-selling
+		[HttpGet("best-selling")]
+		public async Task<ActionResult<IEnumerable<object>>> GetBestSellingModels()
+		{
+			var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+			var endDate = startDate.AddMonths(1);
+
+			var topSellingProductIds = await _context.InvoiceDetails
+				.Where(id => id.Invoice.CreateDate >= startDate && id.Invoice.CreateDate < endDate)
+				.GroupBy(id => id.ProductId)
+				.OrderByDescending(g => g.Sum(id => id.Quantity))
+				.Take(8)
+				.Select(g => g.Key)
+				.ToListAsync();
+
+			var result = new List<object>();
+
+			foreach (var productId in topSellingProductIds)
+			{
+				var product = await _context.Products
+					.Include(p => p.Model)
+					.ThenInclude(m => m.Images)
+					.FirstOrDefaultAsync(p => p.Id == productId);
+
+				if (product != null)
+				{
+					result.Add(new
+					{
+						product.Model.Id,
+						product.Model.Name,
+						product.Model.Price,
+						product.Model.Images
+					});
+				}
+			}
+
+			return Ok(result);
+		}
+
 		// GET: api/Models/featured
 		[HttpGet("featured")]
 		public async Task<ActionResult<IEnumerable<Model>>> GetFeaturedModels()
@@ -403,6 +362,41 @@ namespace shoesshop_api.Controllers
 				.ToListAsync();
 
 			return Ok(models);
+		}
+
+		// GET: api/Models/BrandId/{brandId}
+		[HttpGet("BrandId/{brandId}")]
+		public async Task<ActionResult<IEnumerable<Model>>> GetModelsByBrandId(int brandId)
+		{
+			if (_context.Models == null)
+			{
+				return NotFound();
+			}
+
+			var models = await _context.Models
+				.Include(m => m.Images)
+				.Where(m => m.BrandId == brandId)
+				.Take(8)
+				.ToListAsync();
+
+			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var result = new List<object>();
+
+			foreach (var model in models)
+			{
+				var isInWishlist = userId != null && await _wishlistService.AreAnyProductsInWishlistAsync(userId, model.Id);
+
+				result.Add(new
+				{
+					model.Id,
+					model.Name,
+					model.Price,
+					model.Images,
+					IsInWishlist = isInWishlist,
+				});
+			}
+
+			return Ok(result);
 		}
 
 		// GET: api/Models/5
