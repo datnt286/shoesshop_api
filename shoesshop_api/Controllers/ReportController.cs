@@ -55,6 +55,43 @@ namespace shoesshop_api.Controllers
 				monthlyRevenue.Add(revenue);
 			}
 
+			return Ok(new
+			{
+				totalRevenue,
+				totalSoldProducts,
+				totalCustomers,
+				totalEmployees,
+				monthlyRevenue,
+			});
+		}
+
+		// GET: api/Report/TopSellingProducts
+		[HttpGet("TopSellingProducts")]
+		public async Task<IActionResult> GetTopSellingProducts(int? filter = null)
+		{
+			DateTime startDate;
+			DateTime endDate = DateTime.Now;
+
+			switch (filter)
+			{
+				case 1:
+					startDate = DateTime.Today;
+					break;
+				case 2:
+					int delta = DayOfWeek.Monday - DateTime.Now.DayOfWeek;
+					startDate = DateTime.Now.AddDays(delta);
+					break;
+				case 3:
+					startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+					break;
+				case 4:
+					startDate = new DateTime(DateTime.Now.Year, 1, 1);
+					break;
+				default:
+					startDate = DateTime.Today;
+					break;
+			}
+
 			var topSellingProducts = await _context.InvoiceDetails
 				.Where(id => id.Invoice.CreateDate >= startDate && id.Invoice.CreateDate < endDate)
 				.GroupBy(id => new { id.ProductId, id.Product.Name, id.Product.Image, id.Product.Price })
@@ -70,15 +107,7 @@ namespace shoesshop_api.Controllers
 				.Take(5)
 				.ToListAsync();
 
-			return Ok(new
-			{
-				totalRevenue,
-				totalSoldProducts,
-				totalCustomers,
-				totalEmployees,
-				monthlyRevenue,
-				topSellingProducts,
-			});
+			return Ok(topSellingProducts);
 		}
 	}
 }
