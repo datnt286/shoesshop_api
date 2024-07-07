@@ -171,6 +171,7 @@ namespace shoesshop_api.Controllers
 				.Include(i => i.User)
 				.Include(i => i.InvoiceDetails)
 					.ThenInclude(id => id.Product)
+				.OrderByDescending(i => i.CreateDate)
 				.Skip((currentPage - 1) * pageSize)
 				.Take(pageSize)
 				.ToListAsync();
