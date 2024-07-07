@@ -185,10 +185,15 @@ namespace shoesshop_api.Controllers
 				.Take(pageSize)
 				.ToListAsync();
 
+			var totalCommentsCount = await _context.Comments
+				.Where(c => c.ModelId == modelId && c.Status == 1)
+				.CountAsync();
+
 			var result = new
 			{
 				items,
-				totalPages
+				totalPages,
+				totalCommentsCount
 			};
 
 			return Ok(result);

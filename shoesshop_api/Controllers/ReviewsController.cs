@@ -112,7 +112,8 @@ namespace shoesshop_api.Controllers
 			var result = new
 			{
 				items,
-				totalPages
+				totalPages,
+				totalItems
 			};
 
 			return Ok(result);

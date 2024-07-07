@@ -420,6 +420,13 @@ namespace shoesshop_api.Controllers
 			bool isBought = await _context.InvoiceDetails
 				.AnyAsync(iv => iv.Invoice.UserId == userId && iv.Product.ModelId == model.Id && iv.Invoice.Status == 4);
 
+			var reviews = await _context.Reviews
+				.Where(r => r.ModelId == id) 
+				.ToListAsync();
+
+			double averageRating = reviews.Any() ? reviews.Average(r => r.Rating) : 0;
+			int totalReviews = reviews.Count;
+
 			var result = new
 			{
 				Id = model.Id,
@@ -432,6 +439,8 @@ namespace shoesshop_api.Controllers
 				Images = model.Images,
 				Status = model.Status,
 				IsBought = isBought,
+				AverageRating = averageRating,
+				TotalReviews = totalReviews,
 			};
 
 			return Ok(result);
