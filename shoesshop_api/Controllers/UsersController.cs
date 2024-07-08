@@ -592,10 +592,9 @@ namespace shoesshop_api.Controllers
 
 			user.Status = 0;
 			_context.Entry(user).State = EntityState.Modified;
-
 			await _userManager.UpdateAsync(user);
 
-			return Ok(new { result = "Employee deleted successfully." });
+			return NoContent();
 		}
 
 		// DELETE: api/Users/Employees/{id}
