@@ -37,7 +37,7 @@ namespace shoesshop_api.Controllers
 			{
 				return NotFound();
 			}
-			return await _context.Models.ToListAsync();
+			return await _context.Models.Where(m => m.Status == 1).ToListAsync();
 		}
 
 		// GET: api/Models/paged/productType/{productTypeId}
@@ -65,7 +65,8 @@ namespace shoesshop_api.Controllers
 			}
 
 			var query = _context.Models
-				.Where(p => childProductTypeIds.Contains(p.ProductTypeId));
+				.Where(p => childProductTypeIds.Contains(p.ProductTypeId))
+				.Where(m => m.Status == 1);
 
 			if (!string.IsNullOrEmpty(keyword))
 			{
@@ -116,6 +117,7 @@ namespace shoesshop_api.Controllers
 
 			var models = await _context.Models
 				.Where(p => childProductTypeIds.Contains(p.ProductTypeId))
+				.Where(m => m.Status == 1)
 				.Select(m => new
 				{
 					Id = m.Id,
@@ -156,6 +158,7 @@ namespace shoesshop_api.Controllers
 			}
 
 			var query = _context.Models.AsQueryable();
+			query = query.Where(m => m.Status == 1);
 
 			if (!string.IsNullOrEmpty(keyword))
 			{
@@ -245,11 +248,13 @@ namespace shoesshop_api.Controllers
 			var shoesModels = await _context.Models
 				.Include(m => m.Images)
 				.Where(m => m.ProductType != null && m.ProductType.ParentProductTypeId == 1)
+				.Where(m => m.Status == 1)
 				.Take(8)
 				.ToListAsync();
 			var accessoriesModels = await _context.Models
 				.Include(m => m.Images)
 				.Where(m => m.ProductType != null && m.ProductType.ParentProductTypeId == 2)
+				.Where(m => m.Status == 1)
 				.Take(8)
 				.ToListAsync();
 
@@ -281,6 +286,7 @@ namespace shoesshop_api.Controllers
 				.Include(m => m.Images)
 				.Include(m => m.Products)
 				.Where(m => m.Products.Any(p => p.Quantity > 0))
+				.Where(m => m.Status == 1)
 				.OrderByDescending(m => m.Id)
 				.Take(8)
 				.ToListAsync();
@@ -357,6 +363,7 @@ namespace shoesshop_api.Controllers
 				.Include(m => m.Images)
 				.Include(m => m.Products)
 				.Where(m => m.Products.Any(p => p.Quantity > 0))
+				.Where(m => m.Status == 1)
 				.Take(4)
 				.ToListAsync();
 
@@ -375,6 +382,7 @@ namespace shoesshop_api.Controllers
 			var models = await _context.Models
 				.Include(m => m.Images)
 				.Where(m => m.BrandId == brandId)
+				.Where(m => m.Status == 1)
 				.Take(8)
 				.ToListAsync();
 
@@ -421,7 +429,7 @@ namespace shoesshop_api.Controllers
 				.AnyAsync(iv => iv.Invoice.UserId == userId && iv.Product.ModelId == model.Id && iv.Invoice.Status == 4);
 
 			var reviews = await _context.Reviews
-				.Where(r => r.ModelId == id) 
+				.Where(r => r.ModelId == id)
 				.ToListAsync();
 
 			double averageRating = reviews.Any() ? reviews.Average(r => r.Rating) : 0;
@@ -597,6 +605,38 @@ namespace shoesshop_api.Controllers
 			}
 
 			return CreatedAtAction("GetModel", new { id = model.Id }, model);
+		}
+
+		// PUT: api/Models/SoftDelete/{id}
+		[HttpPut("SoftDelete/{id}")]
+		public async Task<IActionResult> SoftDeleteModel(int id)
+		{
+			var model = await _context.Models.FindAsync(id);
+			if (model == null)
+			{
+				return NotFound();
+			}
+
+			model.Status = 0;
+			_context.Entry(model).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!ModelExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return NoContent();
 		}
 
 		// DELETE: api/Models/5

@@ -580,6 +580,24 @@ namespace shoesshop_api.Controllers
 			return BadRequest(ModelState);
 		}
 
+		// PUT: api/Users/Employees/SoftDelete/{id}
+		[HttpPut("Employees/SoftDelete/{id}")]
+		public async Task<IActionResult> SoftDeleteEmployee(string id)
+		{
+			var user = await _userManager.FindByIdAsync(id);
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			user.Status = 0;
+			_context.Entry(user).State = EntityState.Modified;
+
+			await _userManager.UpdateAsync(user);
+
+			return Ok(new { result = "Employee deleted successfully." });
+		}
+
 		// DELETE: api/Users/Employees/{id}
 		[HttpDelete("Employees/{id}")]
 		public async Task<IActionResult> DeleteEmployee(string id)

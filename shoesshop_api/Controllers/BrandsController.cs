@@ -31,6 +31,7 @@ namespace shoesshop_api.Controllers
 			}
 
 			var brands = await _context.Brands
+				.Where(brand => brand.Status == 1)
 				.Select(brand => new
 				{
 					brand.Id,
@@ -51,6 +52,7 @@ namespace shoesshop_api.Controllers
 			}
 
 			var brands = await _context.Brands
+				.Where(brand => brand.Status == 1)
 				.Select(brand => new
 				{
 					brand.Id,
@@ -76,7 +78,7 @@ namespace shoesshop_api.Controllers
 				return BadRequest("Invalid page number or page size.");
 			}
 
-			var totalItems = await _context.Brands.CountAsync();
+			var totalItems = await _context.Brands.Where(brand => brand.Status == 1).CountAsync();
 			var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
 			if (currentPage > totalPages && totalPages > 0)
@@ -85,6 +87,7 @@ namespace shoesshop_api.Controllers
 			}
 
 			var items = await _context.Brands
+				.Where(brand => brand.Status == 1)
 				.Skip((currentPage - 1) * pageSize)
 				.Take(pageSize)
 				.ToListAsync();
@@ -106,7 +109,7 @@ namespace shoesshop_api.Controllers
 			{
 				return NotFound();
 			}
-			var brand = await _context.Brands.FindAsync(id);
+			var brand = await _context.Brands.FirstOrDefaultAsync(b => b.Id == id && b.Status == 1);
 
 			if (brand == null)
 			{
@@ -171,6 +174,38 @@ namespace shoesshop_api.Controllers
 			await _context.SaveChangesAsync();
 
 			return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+		}
+
+		// PUT: api/Brands/SoftDelete/{id}
+		[HttpPut("SoftDelete/{id}")]
+		public async Task<IActionResult> SoftDeleteBrand(int id)
+		{
+			var brand = await _context.Brands.FindAsync(id);
+			if (brand == null)
+			{
+				return NotFound();
+			}
+
+			brand.Status = 0;
+			_context.Entry(brand).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!BrandExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return NoContent();
 		}
 
 		// DELETE: api/Brands/5

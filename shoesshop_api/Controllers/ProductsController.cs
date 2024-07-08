@@ -37,6 +37,7 @@ namespace shoesshop_api.Controllers
 			}
 
 			var products = await _context.Products
+				.Where(p => p.Status == 1)
 				.Select(p => new
 				{
 					Id = p.Id,
@@ -67,6 +68,7 @@ namespace shoesshop_api.Controllers
 
 			var products = await _context.Products
 				.Where(p => p.ModelId == modelId)
+				.Where(p => p.Status == 1)
 				.ToListAsync();
 
 			if (products == null || products.Count == 0)
@@ -116,7 +118,7 @@ namespace shoesshop_api.Controllers
 				return BadRequest("Invalid page number or page size.");
 			}
 
-			var query = _context.Products.Where(p => p.ModelId == modelId);
+			var query = _context.Products.Where(p => p.ModelId == modelId).Where(p => p.Status == 1);
 
 			if (!string.IsNullOrEmpty(keyword))
 			{
@@ -345,6 +347,38 @@ namespace shoesshop_api.Controllers
 			}
 
 			return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+		}
+
+		// PUT: api/Products/SoftDelete/{id}
+		[HttpPut("SoftDelete/{id}")]
+		public async Task<IActionResult> SoftDeleteProduct(int id)
+		{
+			var product = await _context.Products.FindAsync(id);
+			if (product == null)
+			{
+				return NotFound();
+			}
+
+			product.Status = 0;
+			_context.Entry(product).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!ProductExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return NoContent();
 		}
 
 		// DELETE: api/Products/5

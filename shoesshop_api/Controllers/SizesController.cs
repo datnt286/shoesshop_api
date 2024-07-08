@@ -31,6 +31,7 @@ namespace shoesshop_api.Controllers
 			}
 
 			var sizes = await _context.Sizes
+				.Where(size => size.Status == 1)
 				.Select(size => new
 				{
 					size.Id,
@@ -55,7 +56,7 @@ namespace shoesshop_api.Controllers
 				return BadRequest("Invalid page number or page size.");
 			}
 
-			var totalItems = await _context.Sizes.CountAsync();
+			var totalItems = await _context.Sizes.Where(size => size.Status == 1).CountAsync();
 			var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
 			if (currentPage > totalPages && totalPages > 0)
@@ -64,7 +65,8 @@ namespace shoesshop_api.Controllers
 			}
 
 			var items = await _context.Sizes
-				.OrderBy(s => s.Name)
+				.Where(size => size.Status == 1)
+				.OrderBy(size => size.Name)
 				.Skip((currentPage - 1) * pageSize)
 				.Take(pageSize)
 				.ToListAsync();
@@ -86,7 +88,7 @@ namespace shoesshop_api.Controllers
 			{
 				return NotFound();
 			}
-			var size = await _context.Sizes.FindAsync(id);
+			var size = await _context.Sizes.FirstOrDefaultAsync(s => s.Id == id && s.Status == 1);
 
 			if (size == null)
 			{
@@ -151,6 +153,38 @@ namespace shoesshop_api.Controllers
 			await _context.SaveChangesAsync();
 
 			return CreatedAtAction("GetSize", new { id = size.Id }, size);
+		}
+
+		// PUT: api/Sizes/SoftDelete/{id}
+		[HttpPut("SoftDelete/{id}")]
+		public async Task<IActionResult> SoftDeleteSize(int id)
+		{
+			var size = await _context.Sizes.FindAsync(id);
+			if (size == null)
+			{
+				return NotFound();
+			}
+
+			size.Status = 0;
+			_context.Entry(size).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!SizeExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return NoContent();
 		}
 
 		// DELETE: api/Sizes/5

@@ -1,12 +1,12 @@
 ﻿USE Shoesshop
 
 -- Thêm dữ liệu vào bảng ProductTypes
-INSERT INTO ProductTypes (Name, ParentProductTypeId)
-VALUES (N'Giày', null), (N'Phụ kiện khác', null), (N'Giày cổ thấp', 1), (N'Giày cổ trung', 1), (N'Giày cổ cao', 1), (N'Vớ', 2), (N'Dây giày', 2), (N'Miếng lót giày', 2);
+INSERT INTO ProductTypes (Name, ParentProductTypeId, Status)
+VALUES (N'Giày', null, 1), (N'Phụ kiện khác', null, 1), (N'Giày cổ thấp', 1, 1), (N'Giày cổ trung', 1, 1), (N'Giày cổ cao', 1, 1), (N'Vớ', 2, 1), (N'Dây giày', 2, 1), (N'Miếng lót giày', 2, 1);
 
 -- Thêm dữ liệu vào bảng Brands
-INSERT INTO Brands (Name)
-VALUES ('Nike'), ('Adidas'), ('Puma'), ('Vans');
+INSERT INTO Brands (Name, Status)
+VALUES ('Nike', 1), ('Adidas', 1), ('Puma', 1), ('Vans', 1);
 
 -- Thêm dữ liệu vào bảng Suppliers
 INSERT INTO Suppliers (Name, PhoneNumber, Email, Address, Status)
@@ -16,12 +16,12 @@ VALUES ('Nike', '0123456789', 'nike@example.com', N'Q. 1, TP. HCM', 1),
 	   ('Vans', '0123123113', 'vans@example.com', N'Q. 4, TP. HCM', 1);
 
 -- Thêm dữ liệu vào bảng Colors
-INSERT INTO Colors (Name)
-VALUES (N'Đen'), (N'Xám'), (N'Trắng'), (N'Đỏ'), (N'Cam'), (N'Vàng'), (N'Xanh lá'), (N'Xanh dương'), (N'Tím'), (N'Nâu'), ('Carbon'), (N'Hồng');
+INSERT INTO Colors (Name, Status)
+VALUES (N'Đen', 1), (N'Xám', 1), (N'Trắng', 1), (N'Đỏ', 1), (N'Cam', 1), (N'Vàng', 1), (N'Xanh lá', 1), (N'Xanh dương', 1), (N'Tím', 1), (N'Nâu', 1), ('Carbon', 1), (N'Hồng', 1);
 
 -- Thêm dữ liệu vào bảng Sizes
-INSERT INTO Sizes (Name)
-VALUES ('39'), ('40'), ('41'), ('42'), ('43'), ('44');
+INSERT INTO Sizes (Name, Status)
+VALUES ('39', 1), ('40', 1), ('41', 1), ('42', 1), ('43', 1), ('44', 1);
 
 -- Thêm dữ liệu vào bảng Sliders
 INSERT INTO Sliders (Name, Image, Status)

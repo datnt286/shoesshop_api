@@ -32,6 +32,7 @@ namespace shoesshop_api.Controllers
 
 			var productTypes = await _context.ProductTypes
 				.Where(pt => pt.ParentProductTypeId != null)
+				.Where(pt => pt.Status == 1)
 				.Select(productType => new
 				{
 					productType.Id,
@@ -58,6 +59,7 @@ namespace shoesshop_api.Controllers
 
 			var totalItems = await _context.ProductTypes
 				.Where(pt => pt.ParentProductTypeId != null)
+				.Where(pt => pt.Status == 1)
 				.CountAsync();
 			var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
@@ -68,6 +70,7 @@ namespace shoesshop_api.Controllers
 
 			var items = await _context.ProductTypes
 				.Where(pt => pt.ParentProductTypeId != null)
+				.Where(pt => pt.Status == 1)
 				.Skip((currentPage - 1) * pageSize)
 				.Take(pageSize)
 				.ToListAsync();
@@ -91,6 +94,7 @@ namespace shoesshop_api.Controllers
 			}
 			return await _context.ProductTypes
 				.Where(pt => pt.ParentProductTypeId == null)
+				.Where(pt => pt.Status == 1)
 				.ToListAsync();
 		}
 
@@ -104,6 +108,7 @@ namespace shoesshop_api.Controllers
 			}
 			return await _context.ProductTypes
 				.Where(pt => pt.ParentProductTypeId != null)
+				.Where(pt => pt.Status == 1)
 				.ToListAsync();
 		}
 
@@ -115,7 +120,7 @@ namespace shoesshop_api.Controllers
 			{
 				return NotFound();
 			}
-			var productType = await _context.ProductTypes.FindAsync(id);
+			var productType = await _context.ProductTypes.FirstOrDefaultAsync(pt => pt.Id == id && pt.Status == 1);
 
 			if (productType == null)
 			{
@@ -180,6 +185,38 @@ namespace shoesshop_api.Controllers
 			await _context.SaveChangesAsync();
 
 			return CreatedAtAction("GetProductType", new { id = productType.Id }, productType);
+		}
+
+		// PUT: api/ProductTypes/SoftDelete/{id}
+		[HttpPut("SoftDelete/{id}")]
+		public async Task<IActionResult> SoftDeleteProductType(int id)
+		{
+			var productType = await _context.ProductTypes.FindAsync(id);
+			if (productType == null)
+			{
+				return NotFound();
+			}
+
+			productType.Status = 0;
+			_context.Entry(productType).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!ProductTypeExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return NoContent();
 		}
 
 		// DELETE: api/ProductTypes/5
