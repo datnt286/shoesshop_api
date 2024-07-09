@@ -233,6 +233,7 @@ namespace shoesshop_api.Controllers
 				.Include(i => i.User)
 				.Include(i => i.InvoiceDetails)
 					.ThenInclude(id => id.Product)
+				.OrderByDescending(i => i.CreateDate)
 				.ToListAsync();
 
 			var invoices = query.Select(i => new InvoiceDTO
