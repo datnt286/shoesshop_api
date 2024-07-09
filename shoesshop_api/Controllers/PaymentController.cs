@@ -19,9 +19,9 @@ namespace shoesshop_api.Controllers
 		private const string AccessKey = "klm05TvNBzhg7h7j";
 		private const string SecretKey = "at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa";
 
-		// POST: api/Payment
+		// POST: api/Payment/Momo
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody] MomoRequest request)
+		public async Task<IActionResult> CreateMomoPayment([FromBody] MomoRequest request)
 		{
 			var orderId = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
 			var requestId = Guid.NewGuid().ToString();
@@ -71,7 +71,6 @@ namespace shoesshop_api.Controllers
 			if (createPaymentLinkRes.IsSuccessStatusCode)
 			{
 				var responseContent = await createPaymentLinkRes.Content.ReadAsStringAsync();
-				// Assuming the response contains a JSON object with a field named `payUrl`
 				var paymentResponse = JsonConvert.DeserializeObject<PaymentResponse>(responseContent);
 				return Ok(new { payUrl = paymentResponse.PayUrl });
 			}
@@ -85,15 +84,12 @@ namespace shoesshop_api.Controllers
 		[HttpGet("momo-return")]
 		public IActionResult MomoReturn([FromQuery] MomoReturnRequest request)
 		{
-			// Process the return data here
-			if (request.ResultCode == 0) // Assuming 0 means success in MoMo's response
+			if (request.ResultCode == 0)
 			{
-				// Payment was successful
 				return Ok("Payment successful");
 			}
 			else
 			{
-				// Payment failed
 				return BadRequest("Payment failed");
 			}
 		}
@@ -110,7 +106,6 @@ namespace shoesshop_api.Controllers
 			public string? OrderId { get; set; }
 			public string? TransId { get; set; }
 			public string? Message { get; set; }
-			// Include other fields from MoMo's return data if necessary
 		}
 	}
 }
