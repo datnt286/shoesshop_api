@@ -13,7 +13,7 @@ namespace shoesshop_api.Controllers
 	public class PaymentController : ControllerBase
 	{
 		private const string PartnerCode = "MOMOBKUN20180529";
-		private const string ReturnUrl = "https://localhost:7196/api/payment/momo-return";
+		private const string ReturnUrl = "http://localhost:3000/payment-return";
 		private const string PaymentUrl = "https://test-payment.momo.vn/v2/gateway/api/create";
 		private const string IpnUrl = "https://localhost:7196/payment/api/momo-ipn";
 		private const string AccessKey = "klm05TvNBzhg7h7j";
