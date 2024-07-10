@@ -12,7 +12,7 @@ using shoesshop_api.Data;
 namespace shoesshop_api.Migrations
 {
     [DbContext(typeof(ShoesshopContext))]
-    [Migration("20240705103243_init")]
+    [Migration("20240710121656_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -169,6 +169,9 @@ namespace shoesshop_api.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Brands");
@@ -240,6 +243,9 @@ namespace shoesshop_api.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -540,6 +546,9 @@ namespace shoesshop_api.Migrations
                     b.Property<int?>("ParentProductTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ParentProductTypeId");
@@ -631,6 +640,9 @@ namespace shoesshop_api.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

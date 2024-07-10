@@ -2,18 +2,20 @@
 
 -- Thêm dữ liệu vào bảng ProductTypes
 INSERT INTO ProductTypes (Name, ParentProductTypeId, Status)
-VALUES (N'Giày', null, 1), (N'Phụ kiện khác', null, 1), (N'Giày cổ thấp', 1, 1), (N'Giày cổ trung', 1, 1), (N'Giày cổ cao', 1, 1), (N'Vớ', 2, 1), (N'Dây giày', 2, 1), (N'Miếng lót giày', 2, 1);
+VALUES (N'Giày', null, 1), (N'Phụ kiện khác', null, 1), (N'Giày Sneakers', 1, 1), (N'Giày chạy bộ', 1, 1), (N'Giày golf', 1, 1), (N'Vớ', 2, 1), (N'Dây giày', 2, 1), (N'Miếng lót giày', 2, 1);
 
 -- Thêm dữ liệu vào bảng Brands
 INSERT INTO Brands (Name, Status)
-VALUES ('Nike', 1), ('Adidas', 1), ('Puma', 1), ('Vans', 1);
+VALUES ('Nike', 1), ('Adidas', 1), ('Puma', 1), ('Vans', 1), ('Sofsole', 1), ('Superfeet', 1);
 
 -- Thêm dữ liệu vào bảng Suppliers
 INSERT INTO Suppliers (Name, PhoneNumber, Email, Address, Status)
 VALUES ('Nike', '0123456789', 'nike@example.com', N'Q. 1, TP. HCM', 1),
        ('Adidas', '0987654321', 'adidas@example.com', N'Q. Thủ Đức, TP. HCM', 1),
        ('Puma', '0123123123', 'puma@example.com', N'Q. 3, TP. HCM', 1),
-	   ('Vans', '0123123113', 'vans@example.com', N'Q. 4, TP. HCM', 1);
+	   ('Vans', '0123123113', 'vans@example.com', N'Q. 4, TP. HCM', 1),
+	   ('Sofsole', '0987654675', 'sofsole@example.com', N'Q. Tân Phú, TP. HCM', 1),
+       ('Superfeet', '0123123974', 'superfeet@example.com', N'Q. 6, TP. HCM', 1);
 
 -- Thêm dữ liệu vào bảng Colors
 INSERT INTO Colors (Name, Status)
@@ -21,7 +23,7 @@ VALUES (N'Đen', 1), (N'Xám', 1), (N'Trắng', 1), (N'Đỏ', 1), (N'Cam', 1), 
 
 -- Thêm dữ liệu vào bảng Sizes
 INSERT INTO Sizes (Name, Status)
-VALUES ('39', 1), ('40', 1), ('41', 1), ('42', 1), ('43', 1), ('44', 1);
+VALUES ('39', 1), ('40', 1), ('41', 1), ('42', 1), ('43', 1), ('44', 1), ('Free size', 1);
 
 -- Thêm dữ liệu vào bảng Sliders
 INSERT INTO Sliders (Name, Image, Status)
@@ -39,12 +41,12 @@ VALUES ('Nike Air Force 1 07', 3, 1, 1, 3000000, 4000000, 1),
        ('Nike Air Force 1 Low Evo', 3, 1, 1, 3500000, 4500000, 1),
        ('Nike Air Force 1 Shadow', 3, 1, 1, 3500000, 4500000, 1),
        ('Nike Air Jordan 1 Low', 3, 1, 1, 3000000, 4000000, 1),
-       ('Nike Air Jordan 1 Mid', 4, 1, 1, 3500000, 4500000, 1),
-       ('Nike Air Jordan 1 High', 4, 1, 1, 4000000, 5000000, 1),
+       ('Nike Air Jordan 1 Mid', 3, 1, 1, 3500000, 4500000, 1),
+       ('Nike Air Jordan 1 High', 5, 1, 1, 4000000, 5000000, 1),
 
 	   ('Adidas Avryn', 3, 2, 2, 2000000, 2600000, 1),
-	   ('Adidas Ultraboost 1.0', 3, 2, 2, 2300000, 2900000, 1),
-	   ('Adidas Pureboost 23', 3, 2, 2, 3000000, 3600000, 1),
+	   ('Adidas Ultraboost 1.0', 4, 2, 2, 2300000, 2900000, 1),
+	   ('Adidas Pureboost 23', 4, 2, 2, 3000000, 3600000, 1),
 	   ('Adidas Response Super', 3, 2, 2, 2500000, 3100000, 1),
 	   ('Adidas Dropset 2 Earth', 3, 2, 2, 1800000, 2400000, 1),
 
@@ -58,11 +60,18 @@ VALUES ('Nike Air Force 1 07', 3, 1, 1, 3000000, 4000000, 1),
 	   ('Vans Old Skool', 3, 4, 4, 2200000, 2700000, 1),
 	   ('Vans Ave 2.0', 3, 4, 4, 2400000, 2900000, 1),
 	   ('Vans Cruze Too Comfycush', 3, 4, 4, 2600000, 3100000, 1),
-	   ('Vans SK8 Hi', 4, 4, 4, 2800000, 3300000, 1),
+	   ('Vans SK8 Hi', 5, 4, 4, 2800000, 3300000, 1),
 
-	   (N'Vớ', 6, 1, 1, 300000, 400000, 1),
-	   (N'Dây giày', 7, 1, 1, 200000, 300000, 1),
-	   (N'Miếng lót giày', 8, 1, 1, 100000, 200000, 1);
+	   (N'Vớ Nike Plus Cushion', 6, 1, 1, 100000, 200000, 1),
+	   (N'Vớ Nike Max Cush', 6, 1, 1, 100000, 200000, 1),
+	   (N'Vớ Nike Max Cushion No Show', 6, 1, 1, 100000, 200000, 1),
+
+	   (N'Dây giày Nike', 7, 1, 1, 100000, 150000, 1),
+	   (N'Dây giày Adidas', 7, 2, 2, 100000, 150000, 1),
+	   (N'Dây giày Vans', 7, 4, 4, 100000, 150000, 1),
+
+	   (N'Miếng lót giày Sofsole', 8, 5, 5, 500000, 700000, 1),
+	   (N'Miếng lót giày Superfeet', 8, 6, 6, 1000000, 1200000, 1);
 -- Thêm dữ liệu vào bảng Images
 INSERT INTO Images (Name, ModelId)
 VALUES ('nike-air-force-1-07-white-1.png', 1),
@@ -393,7 +402,53 @@ VALUES ('nike-air-force-1-07-white-1.png', 1),
 	   ('vans-sk8-hi-black-2.png', 25),
        ('vans-sk8-hi-black-3.png', 25),
 	   ('vans-sk8-hi-black-4.png', 25),
-       ('vans-sk8-hi-black-5.png', 25);
+       ('vans-sk8-hi-black-5.png', 25),
+
+	   --Vớ
+
+	   ('nike-plus-cushion-white-1.png', 26),
+	   ('nike-plus-cushion-white-2.png', 26),
+	   ('nike-plus-cushion-white-3.png', 26),
+
+	   ('nike-max-cush-white-1.png', 27),
+	   ('nike-max-cush-white-2.png', 27),
+	   ('nike-max-cush-white-3.png', 27),
+	   ('nike-max-cush-white-4.png', 27),
+
+	   ('nike-max-cushion-no-show-black-1.png', 28),
+	   ('nike-max-cushion-no-show-black-2.png', 28),
+	   ('nike-max-cushion-no-show-black-3.png', 28),
+	   ('nike-max-cushion-no-show-black-4.png', 28),
+
+	   --Dây giày
+
+	   ('nike-white.png', 29),
+
+	   ('adidas-white.png', 30),
+
+	   ('vans-white.png', 31),
+
+	   ('vans-black.png', 31),
+
+	   --Miếng lót giày
+
+	   ('sofsole-air-orange-1.png', 32),
+	   ('sofsole-air-orange-2.png', 32),
+       ('sofsole-air-orange-3.png', 32),
+	   ('sofsole-air-orange-4.png', 32),
+       ('sofsole-air-orange-5.png', 32),
+
+	   ('superfeet-run-comfort-blue-1.png', 33),
+	   ('superfeet-run-comfort-blue-2.png', 33),
+       ('superfeet-run-comfort-blue-3.png', 33),
+	   ('superfeet-run-comfort-blue-4.png', 33),
+       ('superfeet-run-comfort-blue-5.png', 33),
+
+	   ('superfeet-run-comfort-green-1.png', 33),
+	   ('superfeet-run-comfort-green-2.png', 33),
+       ('superfeet-run-comfort-green-3.png', 33),
+	   ('superfeet-run-comfort-green-4.png', 33),
+       ('superfeet-run-comfort-green-5.png', 33);
 
 
 -- Thêm dữ liệu vào bảng Products
@@ -780,4 +835,24 @@ VALUES	(N'Nike Air Force 1 07 - Trắng - 39', 1, 3, 1, 50, 3000000, 4000000, 'n
 		(N'Vans SK8 Hi - Đen - 41', 25, 1, 3, 50, 2800000, 3300000, 'vans-sk8-hi-den.png', 1),
 		(N'Vans SK8 Hi - Đen - 42', 25, 1, 4, 50, 2800000, 3300000, 'vans-sk8-hi-den.png', 1),
 		(N'Vans SK8 Hi - Đen - 43', 25, 1, 5, 50, 2800000, 3300000, 'vans-sk8-hi-den.png', 1),
-		(N'Vans SK8 Hi - Đen - 44', 25, 1, 6, 50, 2800000, 3300000, 'vans-sk8-hi-den.png', 1);
+		(N'Vans SK8 Hi - Đen - 44', 25, 1, 6, 50, 2800000, 3300000, 'vans-sk8-hi-den.png', 1),
+
+		(N'Vớ Nike Plus Cushion - Trắng', 26, 3, 7, 50, 100000, 200000, 'nike-plus-cushion-trang.png', 1),
+
+		(N'Vớ Nike Max Cush - Trắng', 27, 3, 7, 50, 100000, 200000, 'nike-max-cush-trang.png', 1),
+
+		(N'Vớ Nike Max Cushion No Show - Đen', 28, 1, 7, 50, 100000, 200000, 'nike-max-cushion-no-show-den.png', 1),
+
+		(N'Dây giày Nike - Trắng', 29, 3, 7, 50, 100000, 150000, 'nike-trang.png', 1),
+
+		(N'Dây giày Adidas - Trắng', 30, 3, 7, 50, 100000, 150000, 'adidas-trang.png', 1),
+
+		(N'Dây giày Vans - Trắng', 31, 3, 7, 50, 100000, 150000, 'vans-trang.png', 1),
+
+		(N'Dây giày Vans - Đen', 31, 1, 7, 50, 100000, 150000, 'vans-den.png', 1),
+
+		(N'Miếng lót giày Sofsole Air - Cam', 32, 5, 7, 50, 500000, 700000, 'sofsole-air-cam.png', 1),
+
+		(N'Miếng lót giày Superfeet Run Comfort - Xanh lá', 33, 7, 7, 50, 1000000, 1200000, 'superfeet-run-comfort-xanh-la.png', 1),
+
+		(N'Miếng lót giày Superfeet Run Comfort - Xanh dương', 33, 8, 7, 50, 1000000, 1200000, 'superfeet-run-comfort-xanh-duong.png', 1);
