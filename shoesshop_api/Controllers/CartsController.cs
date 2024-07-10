@@ -34,7 +34,7 @@ namespace shoesshop_api.Controllers
 				var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 				if (userId == null)
 				{
-					return BadRequest("User not found");
+					return BadRequest("User not found.");
 				}
 
 				var product = await _context.Products.FindAsync(request.ProductId);
@@ -102,7 +102,7 @@ namespace shoesshop_api.Controllers
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			if (userId == null)
 			{
-				return BadRequest("User not found");
+				return BadRequest("User not found.");
 			}
 
 			var product = await _context.Products

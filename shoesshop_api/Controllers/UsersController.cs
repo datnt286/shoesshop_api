@@ -163,6 +163,16 @@ namespace shoesshop_api.Controllers
 				{
 					var user = await _userManager.FindByNameAsync(request.UserName);
 
+					if (user == null)
+					{
+						return BadRequest("User not found.");
+					}
+
+					if (user.Status == 0)
+					{
+						return Unauthorized("Account is not active.");
+					}
+
 					if (await _userManager.IsInRoleAsync(user, "Manager") ||
 						await _userManager.IsInRoleAsync(user, "SalesStaff") ||
 						await _userManager.IsInRoleAsync(user, "WarehouseStaff") ||

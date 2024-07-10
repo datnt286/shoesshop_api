@@ -134,13 +134,13 @@ namespace shoesshop_api.Controllers
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			if (userId == null)
 			{
-				return BadRequest("UserId not found");
+				return BadRequest("UserId not found.");
 			}
 
 			var user = await _context.Users.FindAsync(userId);
 			if (user == null)
 			{
-				return BadRequest("User not found");
+				return BadRequest("User not found.");
 			}
 
 			if (currentPage <= 0 || pageSize <= 0)
@@ -225,7 +225,7 @@ namespace shoesshop_api.Controllers
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			if (userId == null)
 			{
-				return BadRequest("User not found");
+				return BadRequest("User not found.");
 			}
 
 			var query = await _context.Invoices
@@ -302,13 +302,13 @@ namespace shoesshop_api.Controllers
 			var invoice = _context.Invoices.FirstOrDefault(i => i.Id == id);
 			if (invoice == null)
 			{
-				return NotFound(new { message = "Invoice not found" });
+				return NotFound(new { message = "Invoice not found." });
 			}
 
 			invoice.Status = request.Status;
 			_context.SaveChanges();
 
-			return Ok(new { message = "Invoice status updated successfully" });
+			return Ok(new { message = "Invoice status updated successfully." });
 		}
 	}
 }

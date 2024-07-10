@@ -160,11 +160,11 @@ namespace shoesshop_api.Controllers
 		{
 			if (request.ResultCode == 0)
 			{
-				return Ok("Payment successful");
+				return Ok("Payment successful.");
 			}
 			else
 			{
-				return BadRequest("Payment failed");
+				return BadRequest("Payment failed.");
 			}
 		}
 
