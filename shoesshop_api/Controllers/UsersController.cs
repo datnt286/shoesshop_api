@@ -315,7 +315,7 @@ namespace shoesshop_api.Controllers
 				issuer: _configuration["JWT:ValidIssuer"],
 				audience: _configuration["JWT:ValidAudience"],
 				claims: claims,
-				expires: DateTime.Now.AddDays(1),
+				expires: DateTime.Now.AddMonths(1),
 				signingCredentials: creds);
 
 			return new JwtSecurityTokenHandler().WriteToken(token);
