@@ -14,7 +14,7 @@ namespace shoesshop_api.Controllers
 	public class PaymentController : ControllerBase
 	{
 		private const string VnpUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-		private const string VnpReturnUrl = "http://localhost:3000/payment-return";
+		private const string VnpReturnUrl = "http://localhost:3000/vnpay-return";
 		private const string VnpTmnCode = "S6RMUB02";
 		private const string VnpHashSecret = "3R1YUK6L2EVEHT36KDR7S5K25OTXI7M9";
 
@@ -87,7 +87,7 @@ namespace shoesshop_api.Controllers
 		}
 
 		private const string PartnerCode = "MOMOBKUN20180529";
-		private const string ReturnUrl = "http://localhost:3000/payment-return";
+		private const string ReturnUrl = "http://localhost:3000/momo-return";
 		private const string PaymentUrl = "https://test-payment.momo.vn/v2/gateway/api/create";
 		private const string IpnUrl = "https://localhost:7196/payment/api/momo-ipn";
 		private const string AccessKey = "klm05TvNBzhg7h7j";
