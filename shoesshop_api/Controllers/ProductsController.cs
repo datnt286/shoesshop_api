@@ -196,7 +196,7 @@ namespace shoesshop_api.Controllers
 
 			if (image != null && image.Length > 0)
 			{
-				var productsWithSameColorId = _context.Products.Where(p => p.ColorId == product.ColorId).ToList();
+				var productsWithSameColorId = _context.Products.Where(p => p.ModelId == product.ModelId).Where(p => p.ColorId == product.ColorId).ToList();
 				foreach (var prod in productsWithSameColorId)
 				{
 					if (!string.IsNullOrEmpty(prod.Image))
@@ -238,7 +238,7 @@ namespace shoesshop_api.Controllers
 
 			if (fileName != null)
 			{
-				var productsWithSameColorId = _context.Products.Where(p => p.ColorId == product.ColorId).ToList();
+				var productsWithSameColorId = _context.Products.Where(p => p.ModelId == product.ModelId).Where(p => p.ColorId == product.ColorId).ToList();
 				foreach (var prod in productsWithSameColorId)
 				{
 					prod.Image = fileName;
@@ -288,7 +288,7 @@ namespace shoesshop_api.Controllers
 
 			if (image != null && image.Length > 0)
 			{
-				var productsWithSameColorId = _context.Products.Where(p => p.ColorId == product.ColorId).ToList();
+				var productsWithSameColorId = _context.Products.Where(p => p.ModelId == product.ModelId).Where(p => p.ColorId == product.ColorId).ToList();
 				foreach (var prod in productsWithSameColorId)
 				{
 					if (!string.IsNullOrEmpty(prod.Image))
@@ -337,7 +337,7 @@ namespace shoesshop_api.Controllers
 
 			if (fileName != null)
 			{
-				var productsWithSameColorId = _context.Products.Where(p => p.ColorId == product.ColorId).ToList();
+				var productsWithSameColorId = _context.Products.Where(p => p.ModelId == product.ModelId).Where(p => p.ColorId == product.ColorId).ToList();
 				foreach (var prod in productsWithSameColorId)
 				{
 					prod.Image = fileName;
