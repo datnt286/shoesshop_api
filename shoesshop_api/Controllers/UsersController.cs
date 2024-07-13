@@ -203,12 +203,12 @@ namespace shoesshop_api.Controllers
 
 				var errors = new List<string>();
 
-				if (await _userManager.Users.AnyAsync(u => u.PhoneNumber == user.PhoneNumber && u.Id != user.Id))
+				if (await _userManager.Users.AnyAsync(u => u.PhoneNumber == request.PhoneNumber && u.Id != user.Id))
 				{
 					errors.Add("User with the same PhoneNumber already exists.");
 				}
 
-				if (await _userManager.Users.AnyAsync(u => u.Email == user.Email && u.Id != user.Id))
+				if (await _userManager.Users.AnyAsync(u => u.Email == request.Email && u.Id != user.Id))
 				{
 					errors.Add("User with the same Email already exists.");
 				}
