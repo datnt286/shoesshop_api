@@ -1,0 +1,31 @@
+version: '3.1'
+services:
+  shoeshop_asp_react:
+    container_name: shoeshop_asp_react
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
+      - MSSQL_DATABASE=Shoesshop
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+  react_app:
+    container_name: shoesshop_ui
+    build:
+      context: ../../shoesshop_ui
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  
+volumes:
+  sqlserverdata:
