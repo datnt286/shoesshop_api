@@ -442,6 +442,7 @@ namespace shoesshop_api.Controllers
 				ProductTypeId = model.ProductTypeId,
 				BrandId = model.BrandId,
 				SupplierId = model.SupplierId,
+				ImportPrice = model.ImportPrice,
 				Price = model.Price,
 				Description = model.Description,
 				Images = model.Images,
