@@ -59,7 +59,7 @@ builder.Services.AddAuthentication(options =>
 		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
 	};
 });
-
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 // Add Newtonsoft.Json with handling for reference loops
 builder.Services.AddControllers()
 	.AddNewtonsoftJson(options =>
