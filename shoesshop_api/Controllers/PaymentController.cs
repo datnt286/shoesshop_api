@@ -18,9 +18,9 @@ namespace shoesshop_api.Controllers
 		private const string VnpTmnCode = "S6RMUB02";
 		private const string VnpHashSecret = "3R1YUK6L2EVEHT36KDR7S5K25OTXI7M9";
 
-		// POST: api/Payment/VNPay
-		[HttpPost("VNPay")]
-		public IActionResult CreateVnPayPayment([FromBody] VnpayRequest request)
+		// POST: api/Payment/Vnpay
+		[HttpPost("Vnpay")]
+		public IActionResult CreateVnpayPayment([FromBody] VnpayRequest request)
 		{
 			string vnpTxnRef = Guid.NewGuid().ToString();
 			string vnpOrderInfo = "thanhtoan";
