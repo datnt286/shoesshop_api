@@ -19,6 +19,9 @@ builder.Services.AddDbContext<ShoesshopContext>(options =>
 builder.Services.AddScoped<SlugGenerator>();
 builder.Services.AddScoped<WishlistService>();
 
+// Add IEmailSender service
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 // Configure CORS
 builder.Services.AddCors(options =>
 {
@@ -59,7 +62,7 @@ builder.Services.AddAuthentication(options =>
 		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
 	};
 });
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 // Add Newtonsoft.Json with handling for reference loops
 builder.Services.AddControllers()
 	.AddNewtonsoftJson(options =>

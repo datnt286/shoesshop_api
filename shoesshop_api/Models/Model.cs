@@ -17,6 +17,7 @@
 		public Supplier? Supplier { get; set; }
 		public List<Product>? Products { get; set; }
 		public List<Image>? Images { get; set; }
+		public List<Slider>? Sliders { get; set; }
 		public List<Promotion>? Promotions { get; set; }
 	}
 }
