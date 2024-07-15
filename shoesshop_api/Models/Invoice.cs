@@ -21,7 +21,8 @@
 		Placed = 1,
 		Approved = 2,
 		Shipped = 3,
-		Received = 4,
-		Cancelled = 5
+		Delivered = 4,
+		Received = 5,
+		Cancelled = 6,
 	}
 }

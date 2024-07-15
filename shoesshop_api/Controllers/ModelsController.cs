@@ -426,7 +426,7 @@ namespace shoesshop_api.Controllers
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 			bool isBought = await _context.InvoiceDetails
-				.AnyAsync(iv => iv.Invoice.UserId == userId && iv.Product.ModelId == model.Id && iv.Invoice.Status == 4);
+				.AnyAsync(iv => iv.Invoice.UserId == userId && iv.Product.ModelId == model.Id && iv.Invoice.Status == (int)InvoiceStatus.Received);
 
 			var reviews = await _context.Reviews
 				.Where(r => r.ModelId == id)

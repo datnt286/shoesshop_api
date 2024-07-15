@@ -152,7 +152,7 @@ namespace shoesshop_api.Controllers
 
 			if (user.Role == "Shipper" && (status == 0 || status == null))
 			{
-				query = query.Where(i => i.Status == 3 || i.Status == 4 || i.Status == 5);
+				query = query.Where(i => i.Status == 3 || i.Status == 4 || i.Status == 5 || i.Status == 6);
 			}
 			else if (status.HasValue && status != 0)
 			{
@@ -273,6 +273,10 @@ namespace shoesshop_api.Controllers
 				.Where(i => i.Status == (int)InvoiceStatus.Shipped)
 				.ToList();
 
+			var deliveredInvoices = invoices
+				.Where(i => i.Status == (int)InvoiceStatus.Delivered)
+				.ToList();
+
 			var receivedInvoices = invoices
 				.Where(i => i.Status == (int)InvoiceStatus.Received)
 				.ToList();
@@ -287,6 +291,7 @@ namespace shoesshop_api.Controllers
 				PlacedInvoices = placedInvoices,
 				ApprovedInvoices = approvedInvoices,
 				ShippedInvoices = shippedInvoices,
+				DeliveredInvoices = deliveredInvoices,
 				ReceivedInvoices = receivedInvoices,
 				CancelledInvoices = cancelledInvoices
 			};
@@ -297,12 +302,24 @@ namespace shoesshop_api.Controllers
 		// PUT: api/Invoices/{id}/status
 		[Authorize]
 		[HttpPut("{id}/status")]
-		public IActionResult UpdateStatus(int id, [FromBody] UpdateInvoiceStatusRequest request)
+		public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateInvoiceStatusRequest request)
 		{
-			var invoice = _context.Invoices.FirstOrDefault(i => i.Id == id);
+			var invoice = _context.Invoices.Include(i => i.InvoiceDetails).FirstOrDefault(i => i.Id == id);
 			if (invoice == null)
 			{
 				return NotFound(new { message = "Invoice not found." });
+			}
+
+			if (request.Status == 6)
+			{
+				foreach (var invoiceDetail in invoice.InvoiceDetails)
+				{
+					var product = await _context.Products.FindAsync(invoiceDetail.ProductId);
+					if (product != null)
+					{
+						product.Quantity += invoiceDetail.Quantity;
+					}
+				}
 			}
 
 			invoice.Status = request.Status;

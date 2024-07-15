@@ -25,12 +25,6 @@ VALUES (N'Đen', 1), (N'Xám', 1), (N'Trắng', 1), (N'Đỏ', 1), (N'Cam', 1), 
 INSERT INTO Sizes (Name, Status)
 VALUES ('39', 1), ('40', 1), ('41', 1), ('42', 1), ('43', 1), ('44', 1), ('Free size', 1);
 
--- Thêm dữ liệu vào bảng Sliders
-INSERT INTO Sliders (Name, Image, Status)
-VALUES ('Slider 1', 'slider-1.png', 1),
-		('Slider 2', 'slider-2.png', 1),
-		('Slider 3', 'slider-3.png', 1)
-
 -- Thêm dữ liệu vào bảng Models
 INSERT INTO Models (Name, ProductTypeId, BrandId, SupplierId, ImportPrice, Price, Status)
 VALUES ('Nike Air Force 1 07', 3, 1, 1, 3000000, 4000000, 1),
@@ -856,3 +850,9 @@ VALUES	(N'Nike Air Force 1 07 - Trắng - 39', 1, 3, 1, 50, 3000000, 4000000, 'n
 		(N'Miếng lót giày Superfeet Run Comfort - Xanh lá', 33, 7, 7, 50, 1000000, 1200000, 'superfeet-run-comfort-xanh-la.png', 1),
 
 		(N'Miếng lót giày Superfeet Run Comfort - Xanh dương', 33, 8, 7, 50, 1000000, 1200000, 'superfeet-run-comfort-xanh-duong.png', 1);
+
+-- Thêm dữ liệu vào bảng Sliders
+INSERT INTO Sliders (Name, Image, ModelId, Status)
+VALUES ('Slider 1', 'slider-1.png', 1, 1),
+		('Slider 2', 'slider-2.png', 2, 1),
+		('Slider 3', 'slider-3.png', 3, 1)
