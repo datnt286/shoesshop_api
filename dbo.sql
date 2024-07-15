@@ -3,16 +3,16 @@
 
  Source Server         : SQL Server
  Source Server Type    : SQL Server
- Source Server Version : 14002052 (14.00.2052)
+ Source Server Version : 14002056 (14.00.2056)
  Source Host           : .:1433
  Source Catalog        : Shoesshop
  Source Schema         : dbo
 
  Target Server Type    : SQL Server
- Target Server Version : 14002052 (14.00.2052)
+ Target Server Version : 14002056 (14.00.2056)
  File Encoding         : 65001
 
- Date: 10/07/2024 19:55:40
+ Date: 15/07/2024 21:51:03
 */
 
 
@@ -36,7 +36,7 @@ GO
 -- ----------------------------
 -- Records of __EFMigrationsHistory
 -- ----------------------------
-INSERT INTO [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20240710121656_init', N'7.0.20')
+INSERT INTO [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20240715130357_init', N'7.0.20')
 GO
 
 
@@ -91,19 +91,13 @@ GO
 -- ----------------------------
 -- Records of AspNetRoles
 -- ----------------------------
-INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'05907af1-d6df-4bcc-bf3f-50e48538315e', N'SalesStaff', N'SALESSTAFF', NULL)
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'79f75545-a98b-467c-82a2-fe313485b52e', N'Customer', N'CUSTOMER', NULL)
 GO
 
-INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'29da73a1-9501-4554-ab03-5a47d6884f1e', N'Customer', N'CUSTOMER', NULL)
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'af9b20f6-58f6-4af5-9e7b-6ae7aa6698f2', N'Manager', N'MANAGER', NULL)
 GO
 
-INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'a02ce856-e79a-4e85-bab3-afbc038f1fea', N'Shipper', N'SHIPPER', NULL)
-GO
-
-INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'f5a807e5-8673-428b-a2ca-1958be5a3d38', N'Manager', N'MANAGER', NULL)
-GO
-
-INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'fcd489ec-977f-4c95-8085-ff519769bf3c', N'WarehouseStaff', N'WAREHOUSESTAFF', NULL)
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'b3bbd4ce-8ba5-4862-a051-cb303ee7a2ea', N'Shipper', N'SHIPPER', NULL)
 GO
 
 
@@ -179,22 +173,16 @@ GO
 -- ----------------------------
 -- Records of AspNetUserRoles
 -- ----------------------------
-INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'bfa50802-9639-45d4-adef-ac2a2fa2a6a9', N'05907af1-d6df-4bcc-bf3f-50e48538315e')
+INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'79f75545-a98b-467c-82a2-fe313485b52e')
 GO
 
-INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'5dfc2873-9512-41f3-bd53-c4fb8532274b', N'29da73a1-9501-4554-ab03-5a47d6884f1e')
+INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'9f7d00a8-e257-498f-9d99-7535acb40dd1', N'79f75545-a98b-467c-82a2-fe313485b52e')
 GO
 
-INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'8b6eb4ee-73ae-47cf-961d-c4f16cbab198', N'29da73a1-9501-4554-ab03-5a47d6884f1e')
+INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'48d9ff48-ad91-4b4a-bcc8-5a09568e3204', N'af9b20f6-58f6-4af5-9e7b-6ae7aa6698f2')
 GO
 
-INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'3f42e9ac-c45c-4a26-b736-6b73786c9296', N'a02ce856-e79a-4e85-bab3-afbc038f1fea')
-GO
-
-INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'6525f200-186c-4ef0-bfe9-ce486b861e69', N'f5a807e5-8673-428b-a2ca-1958be5a3d38')
-GO
-
-INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'd750a70a-948f-4b9a-9aeb-24313171a749', N'fcd489ec-977f-4c95-8085-ff519769bf3c')
+INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'62d72144-1b96-4a85-b6da-5fac95b1f094', N'b3bbd4ce-8ba5-4862-a051-cb303ee7a2ea')
 GO
 
 
@@ -238,22 +226,16 @@ GO
 -- ----------------------------
 -- Records of AspNetUsers
 -- ----------------------------
-INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'3f42e9ac-c45c-4a26-b736-6b73786c9296', N'Nguyễn Văn Shipper', N'Xã Vân Nham, Huyện Hữu Lũng, Tỉnh Lạng Sơn', NULL, NULL, N'1', N'Shipper', N'7000000', N'shipper', N'SHIPPER', N'shipper@gmail.com', N'SHIPPER@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEIzJbRPThxHfwRFo3iYz+9rgOwFppGwgyNp+Vzc6vM5KXnz55Gftmxjg4kmJ5NNeqw==', N'2F5RLPEVQ6VAJJCUT33F5FUYN5WKC75K', N'185d095a-cd5c-4352-b161-fd83e52058a9', N'0987654324', N'0', N'0', NULL, N'1', N'0')
+INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'48d9ff48-ad91-4b4a-bcc8-5a09568e3204', N'Nguyễn Thành Đạt', N'Xã Vũ Lăng, Huyện Bắc Sơn, Tỉnh Lạng Sơn', NULL, NULL, N'1', N'Manager', N'10000000', N'admin', N'ADMIN', N'admin@gmail.com', N'ADMIN@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEMxEvMlmtMEMpHR351D9miYtWb/T5Kn21s6mxHUSOkoRgx54BWnqJekh1vywYuadSg==', N'SOZ2USUOFBM5NHZ55BQX3AARHOUPP43N', N'1ad8689b-ef97-4815-aecb-50747cd8b29b', N'0987654321', N'0', N'0', NULL, N'1', N'0')
 GO
 
-INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'5dfc2873-9512-41f3-bd53-c4fb8532274b', N'Đào Hải Đăng', N'Phường Tân Quy, Quận 7, Thành phố Hồ Chí Minh', N'2024-07-10-19-48-02_dang.jpg', NULL, N'1', NULL, NULL, N'dang', N'DANG', N'dang@gmail.com', N'DANG@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEPRnYI+w7mUtIpJuAYr2EqeKZMA4P8CXYujZx8abEWM+rAIN4GxxWFv4oprFjLicPQ==', N'K2NNW2UHEDHJOR2Q4EQSMI2WJRALAZX5', N'1147a8e7-b410-42f2-b857-6d5b75ec882a', N'0123456788', N'0', N'0', NULL, N'1', N'0')
+INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'62d72144-1b96-4a85-b6da-5fac95b1f094', N'Nguyễn Văn Shipper', N'Xã Cai Kinh, Huyện Hữu Lũng, Tỉnh Lạng Sơn', NULL, NULL, N'1', N'Shipper', N'7000000', N'shipper', N'SHIPPER', N'shipper@gmail.com', N'SHIPPER@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEMdSKAc6sjSNR/hb3u6pDKRX9ookCD+i8/NpMSxZAvXlMEZ2S80uzMY4eSnJXg0Uaw==', N'B77CB2S66BZJQVBUZ6OEXLRI2L4WYGUZ', N'8d3c2724-53ba-4466-8d3f-6f883090eec6', N'0987654322', N'0', N'0', NULL, N'1', N'0')
 GO
 
-INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'6525f200-186c-4ef0-bfe9-ce486b861e69', N'Nguyễn Văn Admin', N'Xã Thanh Sơn, Huyện Ba Chẽ, Tỉnh Quảng Ninh', NULL, NULL, N'1', N'Manager', N'10000000', N'admin', N'ADMIN', N'admin@gmail.com', N'ADMIN@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEELkQad8tlzE7HOcJIRYULYRTA31kKrkG/Ty6E2fbllZM6M6ZbWLPAcGhv2BC7GKWw==', N'L723T5YW4HOUWS52ELQGGYQ3OO2QJUUJ', N'064586a5-b550-43f9-9a2b-13b23891865a', N'0987654321', N'0', N'0', NULL, N'1', N'0')
+INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'Nguyễn Thành Đạt', N'Xã Vũ Lăng, Huyện Bắc Sơn, Tỉnh Lạng Sơn', NULL, NULL, N'1', NULL, NULL, N'dat', N'DAT', N'datnt286@gmail.com', N'DATNT286@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEDUzq1j/Ym1VjEDYBB7Qzw30PsohxKjgXzyuBB2h71/z/QkLrrrvPU8vP0ZniizKBQ==', N'XXKUU3ZFNPYYRJMROADFZ7RYJC3IOLOO', N'007f4ad4-3752-443f-8dc2-fe68b381c6a6', N'0123456789', N'0', N'0', NULL, N'1', N'0')
 GO
 
-INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'8b6eb4ee-73ae-47cf-961d-c4f16cbab198', N'Nguyễn Thành Đạt', N'Xã Cai Kinh, Huyện Hữu Lũng, Tỉnh Lạng Sơn', N'2024-07-10-19-41-42_dat.jpg', NULL, N'1', NULL, NULL, N'dat', N'DAT', N'dat@gmail.com', N'DAT@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEGfOdUdmuQV4mdBHGqpHa8+AR/R5jMAzIiS/ZuFVX+f3u8HWFxVYUCCgegb5vzgEWA==', N'RJBDIVJEOK4OGIPLRCEICHMXHNZZGIGD', N'52030c4f-686f-4567-8c8c-a8f06b2bb0d1', N'0123456789', N'0', N'0', NULL, N'1', N'0')
-GO
-
-INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'bfa50802-9639-45d4-adef-ac2a2fa2a6a9', N'Nguyễn Văn SalesStaff', N'Xã Minh Châu, Huyện Vân Đồn, Tỉnh Quảng Ninh', NULL, NULL, N'1', N'SalesStaff', N'9000000', N'salesstaff', N'SALESSTAFF', N'salesstaff@gmail.com', N'SALESSTAFF@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEOYiLmaiYnk/45+ajInFxl4RLd9Q2ZGX3H69lWu0hrs2nuBTlR4lrS8wurICVrQNnQ==', N'MQUYM7DQ472PUFH5EQYY42TVYKWILFKU', N'2167f153-3230-4eb2-a87a-04b6ce596d49', N'0987654322', N'0', N'0', NULL, N'1', N'0')
-GO
-
-INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'd750a70a-948f-4b9a-9aeb-24313171a749', N'Nguyễn Văn WarehouseStaff', N'Xã Tri Lễ, Huyện Văn Quan, Tỉnh Lạng Sơn', NULL, NULL, N'1', N'WarehouseStaff', N'8000000', N'warehousestaff', N'WAREHOUSESTAFF', N'warehousestaff@gmail.com', N'WAREHOUSESTAFF@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEGw6zu2jMXt59ykuLRG4Ea3pon86+sJb16BtpuuUqUKtbWMHcb5RB01+O5SmsYbEMA==', N'KX3NFL5FWXQ3ZT3LQUNV4AULEHAQFIT5', N'dde49000-196b-4118-a640-5057cdc20548', N'0987654323', N'0', N'0', NULL, N'1', N'0')
+INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'9f7d00a8-e257-498f-9d99-7535acb40dd1', NULL, NULL, NULL, NULL, N'1', NULL, NULL, N'dang', N'DANG', N'dang@gmail.com', N'DANG@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEO7bm1KKas0kUwYocdcfgdWxB26qv3Z85fs5juHGAyFvyTeBOlxbS6NWcp8lyFfcDw==', N'PUQRKXRHXCDMMUBZASTQRSPNZII7TBHF', N'092bf3f1-43e4-417c-994d-7b457b9b6a2a', NULL, N'0', N'0', NULL, N'1', N'0')
 GO
 
 
@@ -1498,6 +1480,9 @@ GO
 SET IDENTITY_INSERT [dbo].[InvoiceDetails] ON
 GO
 
+INSERT INTO [dbo].[InvoiceDetails] ([Id], [InvoiceId], [ProductId], [Price], [Quantity], [Amount]) VALUES (N'1', N'1', N'1', N'4000000', N'1', N'4000000')
+GO
+
 SET IDENTITY_INSERT [dbo].[InvoiceDetails] OFF
 GO
 
@@ -1530,6 +1515,9 @@ GO
 -- Records of Invoices
 -- ----------------------------
 SET IDENTITY_INSERT [dbo].[Invoices] ON
+GO
+
+INSERT INTO [dbo].[Invoices] ([Id], [UserId], [CreateDate], [PaymentMethod], [Total], [ShippingFee], [TotalPayment], [Note], [Status]) VALUES (N'1', N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'2024-07-15 20:09:47.7155532', N'COD', N'4000000', N'15000', N'4015000', N'', N'5')
 GO
 
 SET IDENTITY_INSERT [dbo].[Invoices] OFF
@@ -1701,7 +1689,7 @@ GO
 SET IDENTITY_INSERT [dbo].[Products] ON
 GO
 
-INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'1', N'Nike Air Force 1 07 - Trắng - 39', N'1', N'3', N'1', N'50', N'3000000', N'4000000', N'nike-air-force-1-07-trang.png', NULL, N'1')
+INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'1', N'Nike Air Force 1 07 - Trắng - 39', N'1', N'3', N'1', N'49', N'3000000', N'4000000', N'nike-air-force-1-07-trang.png', NULL, N'1')
 GO
 
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'2', N'Nike Air Force 1 07 - Trắng - 40', N'1', N'3', N'2', N'50', N'3000000', N'4000000', N'nike-air-force-1-07-trang.png', NULL, N'1')
@@ -2886,6 +2874,7 @@ CREATE TABLE [dbo].[Sliders] (
   [Id] int  IDENTITY(1,1) NOT NULL,
   [Name] nvarchar(max) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
   [Image] nvarchar(max) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
+  [ModelId] int  NOT NULL,
   [Status] int  NOT NULL
 )
 GO
@@ -2900,13 +2889,13 @@ GO
 SET IDENTITY_INSERT [dbo].[Sliders] ON
 GO
 
-INSERT INTO [dbo].[Sliders] ([Id], [Name], [Image], [Status]) VALUES (N'1', N'Slider 1', N'slider-1.png', N'1')
+INSERT INTO [dbo].[Sliders] ([Id], [Name], [Image], [ModelId], [Status]) VALUES (N'1', N'Slider 1', N'slider-1.png', N'1', N'1')
 GO
 
-INSERT INTO [dbo].[Sliders] ([Id], [Name], [Image], [Status]) VALUES (N'2', N'Slider 2', N'slider-2.png', N'1')
+INSERT INTO [dbo].[Sliders] ([Id], [Name], [Image], [ModelId], [Status]) VALUES (N'2', N'Slider 2', N'slider-2.png', N'2', N'1')
 GO
 
-INSERT INTO [dbo].[Sliders] ([Id], [Name], [Image], [Status]) VALUES (N'3', N'Slider 3', N'slider-3.png', N'1')
+INSERT INTO [dbo].[Sliders] ([Id], [Name], [Image], [ModelId], [Status]) VALUES (N'3', N'Slider 3', N'slider-3.png', N'3', N'1')
 GO
 
 SET IDENTITY_INSERT [dbo].[Sliders] OFF
@@ -3012,9 +3001,6 @@ GO
 -- Records of Wishlists
 -- ----------------------------
 SET IDENTITY_INSERT [dbo].[Wishlists] ON
-GO
-
-INSERT INTO [dbo].[Wishlists] ([Id], [UserId]) VALUES (N'1', N'8b6eb4ee-73ae-47cf-961d-c4f16cbab198')
 GO
 
 SET IDENTITY_INSERT [dbo].[Wishlists] OFF
@@ -3629,6 +3615,16 @@ GO
 
 
 -- ----------------------------
+-- Indexes structure for table Sliders
+-- ----------------------------
+CREATE NONCLUSTERED INDEX [IX_Sliders_ModelId]
+ON [dbo].[Sliders] (
+  [ModelId] ASC
+)
+GO
+
+
+-- ----------------------------
 -- Primary Key structure for table Sliders
 -- ----------------------------
 ALTER TABLE [dbo].[Sliders] ADD CONSTRAINT [PK_Sliders] PRIMARY KEY CLUSTERED ([Id])
@@ -3867,6 +3863,13 @@ ALTER TABLE [dbo].[Reviews] ADD CONSTRAINT [FK_Reviews_AspNetUsers_UserId] FOREI
 GO
 
 ALTER TABLE [dbo].[Reviews] ADD CONSTRAINT [FK_Reviews_Models_ModelId] FOREIGN KEY ([ModelId]) REFERENCES [dbo].[Models] ([Id]) ON DELETE CASCADE ON UPDATE NO ACTION
+GO
+
+
+-- ----------------------------
+-- Foreign Keys structure for table Sliders
+-- ----------------------------
+ALTER TABLE [dbo].[Sliders] ADD CONSTRAINT [FK_Sliders_Models_ModelId] FOREIGN KEY ([ModelId]) REFERENCES [dbo].[Models] ([Id]) ON DELETE CASCADE ON UPDATE NO ACTION
 GO
 
 
