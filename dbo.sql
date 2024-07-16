@@ -12,7 +12,7 @@
  Target Server Version : 14002056 (14.00.2056)
  File Encoding         : 65001
 
- Date: 15/07/2024 21:51:03
+ Date: 16/07/2024 11:59:12
 */
 
 
@@ -92,6 +92,12 @@ GO
 -- Records of AspNetRoles
 -- ----------------------------
 INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'79f75545-a98b-467c-82a2-fe313485b52e', N'Customer', N'CUSTOMER', NULL)
+GO
+
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'8aac26df-bab8-46ba-91a4-9cc8d808345c', N'WarehouseStaff', N'WAREHOUSESTAFF', NULL)
+GO
+
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'8e61c728-3274-4c7f-b14b-a129428e333e', N'SalesStaff', N'SALESSTAFF', NULL)
 GO
 
 INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'af9b20f6-58f6-4af5-9e7b-6ae7aa6698f2', N'Manager', N'MANAGER', NULL)
@@ -179,6 +185,12 @@ GO
 INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'9f7d00a8-e257-498f-9d99-7535acb40dd1', N'79f75545-a98b-467c-82a2-fe313485b52e')
 GO
 
+INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'037905de-c479-4fae-b990-f9a0da11e07f', N'8aac26df-bab8-46ba-91a4-9cc8d808345c')
+GO
+
+INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'bc58c1f3-97be-4b80-9053-ad7770e3334e', N'8e61c728-3274-4c7f-b14b-a129428e333e')
+GO
+
 INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'48d9ff48-ad91-4b4a-bcc8-5a09568e3204', N'af9b20f6-58f6-4af5-9e7b-6ae7aa6698f2')
 GO
 
@@ -226,16 +238,22 @@ GO
 -- ----------------------------
 -- Records of AspNetUsers
 -- ----------------------------
-INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'48d9ff48-ad91-4b4a-bcc8-5a09568e3204', N'Nguyễn Thành Đạt', N'Xã Vũ Lăng, Huyện Bắc Sơn, Tỉnh Lạng Sơn', NULL, NULL, N'1', N'Manager', N'10000000', N'admin', N'ADMIN', N'admin@gmail.com', N'ADMIN@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEMxEvMlmtMEMpHR351D9miYtWb/T5Kn21s6mxHUSOkoRgx54BWnqJekh1vywYuadSg==', N'SOZ2USUOFBM5NHZ55BQX3AARHOUPP43N', N'1ad8689b-ef97-4815-aecb-50747cd8b29b', N'0987654321', N'0', N'0', NULL, N'1', N'0')
+INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'037905de-c479-4fae-b990-f9a0da11e07f', N'Nguyễn Văn WarehouseStaff', N'Xã Lâu Thượng, Huyện Võ Nhai, Tỉnh Thái Nguyên', NULL, N'null', N'1', N'WarehouseStaff', N'12000000', N'warehousestaff', N'WAREHOUSESTAFF', N'warehousestaff@gmail.com', N'WAREHOUSESTAFF@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEPoQYMqVI0wRkWM3sznOEMBy20kvYliOWfiB7w+7vpIXqVv26nX4JfX3wHOa+xJQHg==', N'XDFJQOEB47UJEL75UXF25IAGTDZIUJVC', N'03139ef2-5982-463b-b004-6ff4599a9c68', N'0987654324', N'0', N'0', NULL, N'1', N'0')
 GO
 
-INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'62d72144-1b96-4a85-b6da-5fac95b1f094', N'Nguyễn Văn Shipper', N'Xã Cai Kinh, Huyện Hữu Lũng, Tỉnh Lạng Sơn', NULL, NULL, N'1', N'Shipper', N'7000000', N'shipper', N'SHIPPER', N'shipper@gmail.com', N'SHIPPER@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEMdSKAc6sjSNR/hb3u6pDKRX9ookCD+i8/NpMSxZAvXlMEZ2S80uzMY4eSnJXg0Uaw==', N'B77CB2S66BZJQVBUZ6OEXLRI2L4WYGUZ', N'8d3c2724-53ba-4466-8d3f-6f883090eec6', N'0987654322', N'0', N'0', NULL, N'1', N'0')
+INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'48d9ff48-ad91-4b4a-bcc8-5a09568e3204', N'Nguyễn Thành Đạt', N'Xã Vũ Lăng, Huyện Bắc Sơn, Tỉnh Lạng Sơn', N'2024-07-16-11-56-31_admin.jpg', N'null', N'1', N'Manager', N'20000000', N'admin', N'ADMIN', N'admin@gmail.com', N'ADMIN@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEMxEvMlmtMEMpHR351D9miYtWb/T5Kn21s6mxHUSOkoRgx54BWnqJekh1vywYuadSg==', N'SOZ2USUOFBM5NHZ55BQX3AARHOUPP43N', N'd6cf2a92-471b-4b39-a451-afa6713556c0', N'0987654321', N'0', N'0', NULL, N'1', N'0')
 GO
 
-INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'Nguyễn Thành Đạt', N'Xã Vũ Lăng, Huyện Bắc Sơn, Tỉnh Lạng Sơn', NULL, NULL, N'1', NULL, NULL, N'dat', N'DAT', N'datnt286@gmail.com', N'DATNT286@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEDUzq1j/Ym1VjEDYBB7Qzw30PsohxKjgXzyuBB2h71/z/QkLrrrvPU8vP0ZniizKBQ==', N'XXKUU3ZFNPYYRJMROADFZ7RYJC3IOLOO', N'007f4ad4-3752-443f-8dc2-fe68b381c6a6', N'0123456789', N'0', N'0', NULL, N'1', N'0')
+INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'62d72144-1b96-4a85-b6da-5fac95b1f094', N'Nguyễn Văn Shipper', N'Xã Cai Kinh, Huyện Hữu Lũng, Tỉnh Lạng Sơn', NULL, N'null', N'1', N'Shipper', N'10000000', N'shipper', N'SHIPPER', N'shipper@gmail.com', N'SHIPPER@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEMdSKAc6sjSNR/hb3u6pDKRX9ookCD+i8/NpMSxZAvXlMEZ2S80uzMY4eSnJXg0Uaw==', N'B77CB2S66BZJQVBUZ6OEXLRI2L4WYGUZ', N'71c3a211-639e-4001-937f-061e154d4649', N'0987654322', N'0', N'0', NULL, N'1', N'0')
+GO
+
+INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'Nguyễn Thành Đạt', N'Xã Vũ Lăng, Huyện Bắc Sơn, Tỉnh Lạng Sơn', N'2024-07-16-11-46-22_dat.jpg', NULL, N'1', NULL, NULL, N'dat', N'DAT', N'datnt286@gmail.com', N'DATNT286@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEDUzq1j/Ym1VjEDYBB7Qzw30PsohxKjgXzyuBB2h71/z/QkLrrrvPU8vP0ZniizKBQ==', N'XXKUU3ZFNPYYRJMROADFZ7RYJC3IOLOO', N'9e17368a-0312-434a-85f2-4e028df68172', N'0123456789', N'0', N'0', NULL, N'1', N'0')
 GO
 
 INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'9f7d00a8-e257-498f-9d99-7535acb40dd1', NULL, NULL, NULL, NULL, N'1', NULL, NULL, N'dang', N'DANG', N'dang@gmail.com', N'DANG@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAEO7bm1KKas0kUwYocdcfgdWxB26qv3Z85fs5juHGAyFvyTeBOlxbS6NWcp8lyFfcDw==', N'PUQRKXRHXCDMMUBZASTQRSPNZII7TBHF', N'092bf3f1-43e4-417c-994d-7b457b9b6a2a', NULL, N'0', N'0', NULL, N'1', N'0')
+GO
+
+INSERT INTO [dbo].[AspNetUsers] ([Id], [Name], [Address], [Avatar], [Description], [Status], [Role], [Salary], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'bc58c1f3-97be-4b80-9053-ad7770e3334e', N'Nguyễn Văn SaleStaff', N'Xã Phủ Lý, Huyện Phú Lương, Tỉnh Thái Nguyên', NULL, N'null', N'1', N'SalesStaff', N'15000000', N'salesstaff', N'SALESSTAFF', N'salesstaff@gmail.com', N'SALESSTAFF@GMAIL.COM', N'0', N'AQAAAAIAAYagAAAAED34BVmE7CpHcf+SBNB/YDoi13b4gfHInAUS8LGdWLh4Fy7sJsEkcdasbn/S8kagXQ==', N'3J6OWYDI64EG7LESBXXX7DNYELLQZVFL', N'96dc862a-a26f-4d37-90ae-d17497d6951f', N'0987654323', N'0', N'0', NULL, N'1', N'0')
 GO
 
 
@@ -362,6 +380,9 @@ GO
 -- Records of Carts
 -- ----------------------------
 SET IDENTITY_INSERT [dbo].[Carts] ON
+GO
+
+INSERT INTO [dbo].[Carts] ([Id], [UserId], [CreatedDate], [Status]) VALUES (N'7', N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'2024-07-16 11:46:46.9791445', N'1')
 GO
 
 SET IDENTITY_INSERT [dbo].[Carts] OFF
@@ -1483,6 +1504,30 @@ GO
 INSERT INTO [dbo].[InvoiceDetails] ([Id], [InvoiceId], [ProductId], [Price], [Quantity], [Amount]) VALUES (N'1', N'1', N'1', N'4000000', N'1', N'4000000')
 GO
 
+INSERT INTO [dbo].[InvoiceDetails] ([Id], [InvoiceId], [ProductId], [Price], [Quantity], [Amount]) VALUES (N'2', N'2', N'14', N'4200000', N'1', N'4200000')
+GO
+
+INSERT INTO [dbo].[InvoiceDetails] ([Id], [InvoiceId], [ProductId], [Price], [Quantity], [Amount]) VALUES (N'3', N'3', N'13', N'4200000', N'1', N'4200000')
+GO
+
+INSERT INTO [dbo].[InvoiceDetails] ([Id], [InvoiceId], [ProductId], [Price], [Quantity], [Amount]) VALUES (N'4', N'4', N'14', N'4200000', N'1', N'4200000')
+GO
+
+INSERT INTO [dbo].[InvoiceDetails] ([Id], [InvoiceId], [ProductId], [Price], [Quantity], [Amount]) VALUES (N'5', N'6', N'74', N'4500000', N'1', N'4500000')
+GO
+
+INSERT INTO [dbo].[InvoiceDetails] ([Id], [InvoiceId], [ProductId], [Price], [Quantity], [Amount]) VALUES (N'6', N'6', N'69', N'4500000', N'1', N'4500000')
+GO
+
+INSERT INTO [dbo].[InvoiceDetails] ([Id], [InvoiceId], [ProductId], [Price], [Quantity], [Amount]) VALUES (N'7', N'7', N'122', N'5000000', N'1', N'5000000')
+GO
+
+INSERT INTO [dbo].[InvoiceDetails] ([Id], [InvoiceId], [ProductId], [Price], [Quantity], [Amount]) VALUES (N'8', N'7', N'200', N'2500000', N'3', N'7500000')
+GO
+
+INSERT INTO [dbo].[InvoiceDetails] ([Id], [InvoiceId], [ProductId], [Price], [Quantity], [Amount]) VALUES (N'9', N'7', N'236', N'3400000', N'1', N'3400000')
+GO
+
 SET IDENTITY_INSERT [dbo].[InvoiceDetails] OFF
 GO
 
@@ -1518,6 +1563,21 @@ SET IDENTITY_INSERT [dbo].[Invoices] ON
 GO
 
 INSERT INTO [dbo].[Invoices] ([Id], [UserId], [CreateDate], [PaymentMethod], [Total], [ShippingFee], [TotalPayment], [Note], [Status]) VALUES (N'1', N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'2024-07-15 20:09:47.7155532', N'COD', N'4000000', N'15000', N'4015000', N'', N'5')
+GO
+
+INSERT INTO [dbo].[Invoices] ([Id], [UserId], [CreateDate], [PaymentMethod], [Total], [ShippingFee], [TotalPayment], [Note], [Status]) VALUES (N'2', N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'2024-07-15 22:31:19.8989950', N'COD', N'4200000', N'15000', N'4215000', N'', N'6')
+GO
+
+INSERT INTO [dbo].[Invoices] ([Id], [UserId], [CreateDate], [PaymentMethod], [Total], [ShippingFee], [TotalPayment], [Note], [Status]) VALUES (N'3', N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'2024-07-15 22:34:48.2446913', N'COD', N'4200000', N'15000', N'4215000', N'', N'5')
+GO
+
+INSERT INTO [dbo].[Invoices] ([Id], [UserId], [CreateDate], [PaymentMethod], [Total], [ShippingFee], [TotalPayment], [Note], [Status]) VALUES (N'4', N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'2024-07-15 22:45:55.6809448', N'VNPay', N'4200000', N'15000', N'4215000', N'', N'5')
+GO
+
+INSERT INTO [dbo].[Invoices] ([Id], [UserId], [CreateDate], [PaymentMethod], [Total], [ShippingFee], [TotalPayment], [Note], [Status]) VALUES (N'6', N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'2024-07-16 11:24:43.0820451', N'COD', N'9000000', N'15000', N'9015000', N'', N'5')
+GO
+
+INSERT INTO [dbo].[Invoices] ([Id], [UserId], [CreateDate], [PaymentMethod], [Total], [ShippingFee], [TotalPayment], [Note], [Status]) VALUES (N'7', N'8f5db5b4-9e13-4658-8f69-9f3cfc77f194', N'2024-07-16 11:33:24.8336375', N'VNPay', N'15900000', N'15000', N'15915000', N'', N'5')
 GO
 
 SET IDENTITY_INSERT [dbo].[Invoices] OFF
@@ -1725,10 +1785,10 @@ GO
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'12', N'Nike Air Force 1 07 - Đen - 44', N'1', N'1', N'6', N'50', N'3000000', N'4000000', N'nike-air-force-1-07-den.png', NULL, N'1')
 GO
 
-INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'13', N'Nike Air Force 1 07 Easyon - Trắng - 39', N'2', N'3', N'1', N'50', N'3200000', N'4200000', N'nike-air-force-1-07-easyon-trang.png', NULL, N'1')
+INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'13', N'Nike Air Force 1 07 Easyon - Trắng - 39', N'2', N'3', N'1', N'49', N'3200000', N'4200000', N'nike-air-force-1-07-easyon-trang.png', NULL, N'1')
 GO
 
-INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'14', N'Nike Air Force 1 07 Easyon - Trắng - 40', N'2', N'3', N'2', N'50', N'3200000', N'4200000', N'nike-air-force-1-07-easyon-trang.png', NULL, N'1')
+INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'14', N'Nike Air Force 1 07 Easyon - Trắng - 40', N'2', N'3', N'2', N'49', N'3200000', N'4200000', N'nike-air-force-1-07-easyon-trang.png', NULL, N'1')
 GO
 
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'15', N'Nike Air Force 1 07 Easyon - Trắng - 41', N'2', N'3', N'3', N'50', N'3200000', N'4200000', N'nike-air-force-1-07-easyon-trang.png', NULL, N'1')
@@ -1893,7 +1953,7 @@ GO
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'68', N'Nike Air Force 1 Low Evo - Trắng - 40', N'6', N'3', N'2', N'50', N'3500000', N'4500000', N'nike-air-force-1-low-evo-trang.png', NULL, N'1')
 GO
 
-INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'69', N'Nike Air Force 1 Low Evo - Trắng - 41', N'6', N'3', N'3', N'50', N'3500000', N'4500000', N'nike-air-force-1-low-evo-trang.png', NULL, N'1')
+INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'69', N'Nike Air Force 1 Low Evo - Trắng - 41', N'6', N'3', N'3', N'49', N'3500000', N'4500000', N'nike-air-force-1-low-evo-trang.png', NULL, N'1')
 GO
 
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'70', N'Nike Air Force 1 Low Evo - Trắng - 42', N'6', N'3', N'4', N'50', N'3500000', N'4500000', N'nike-air-force-1-low-evo-trang.png', NULL, N'1')
@@ -1908,7 +1968,7 @@ GO
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'73', N'Nike Air Force 1 Shadow - Trắng - 39', N'7', N'3', N'1', N'50', N'3500000', N'4500000', N'nike-air-force-1-shadow-trang.png', NULL, N'1')
 GO
 
-INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'74', N'Nike Air Force 1 Shadow - Trắng - 40', N'7', N'3', N'2', N'50', N'3500000', N'4500000', N'nike-air-force-1-shadow-trang.png', NULL, N'1')
+INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'74', N'Nike Air Force 1 Shadow - Trắng - 40', N'7', N'3', N'2', N'49', N'3500000', N'4500000', N'nike-air-force-1-shadow-trang.png', NULL, N'1')
 GO
 
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'75', N'Nike Air Force 1 Shadow - Trắng - 41', N'7', N'3', N'3', N'50', N'3500000', N'4500000', N'nike-air-force-1-shadow-trang.png', NULL, N'1')
@@ -2052,7 +2112,7 @@ GO
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'121', N'Nike Air Jordan 1 I High G - Xanh dương - 39', N'10', N'8', N'1', N'50', N'4000000', N'5000000', N'nike-air-jordan-i-high-g-golf-xanh-duong.png', NULL, N'1')
 GO
 
-INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'122', N'Nike Air Jordan 1 I High G - Xanh dương - 40', N'10', N'8', N'2', N'50', N'4000000', N'5000000', N'nike-air-jordan-i-high-g-golf-xanh-duong.png', NULL, N'1')
+INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'122', N'Nike Air Jordan 1 I High G - Xanh dương - 40', N'10', N'8', N'2', N'49', N'4000000', N'5000000', N'nike-air-jordan-i-high-g-golf-xanh-duong.png', NULL, N'1')
 GO
 
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'123', N'Nike Air Jordan 1 I High G - Xanh dương - 41', N'10', N'8', N'3', N'50', N'4000000', N'5000000', N'nike-air-jordan-i-high-g-golf-xanh-duong.png', NULL, N'1')
@@ -2286,7 +2346,7 @@ GO
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'199', N'Puma Rs-X 3D - Đen - 39', N'16', N'1', N'1', N'50', N'2000000', N'2500000', N'puma-rs-x-3d-den.png', NULL, N'1')
 GO
 
-INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'200', N'Puma Rs-X 3D - Đen - 40', N'16', N'1', N'2', N'50', N'2000000', N'2500000', N'puma-rs-x-3d-den.png', NULL, N'1')
+INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'200', N'Puma Rs-X 3D - Đen - 40', N'16', N'1', N'2', N'47', N'2000000', N'2500000', N'puma-rs-x-3d-den.png', NULL, N'1')
 GO
 
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'201', N'Puma Rs-X 3D - Đen - 41', N'16', N'1', N'4', N'50', N'2000000', N'2500000', N'puma-rs-x-3d-den.png', NULL, N'1')
@@ -2394,7 +2454,7 @@ GO
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'235', N'Adidas Palermo Leather - Trắng - 39', N'19', N'3', N'1', N'50', N'2900000', N'3400000', N'puma-palermo-leather-trang.png', NULL, N'1')
 GO
 
-INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'236', N'Adidas Palermo Leather - Trắng - 40', N'19', N'3', N'2', N'50', N'2900000', N'3400000', N'puma-palermo-leather-trang.png', NULL, N'1')
+INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'236', N'Adidas Palermo Leather - Trắng - 40', N'19', N'3', N'2', N'49', N'2900000', N'3400000', N'puma-palermo-leather-trang.png', NULL, N'1')
 GO
 
 INSERT INTO [dbo].[Products] ([Id], [Name], [ModelId], [ColorId], [SizeId], [Quantity], [ImportPrice], [Price], [Image], [Description], [Status]) VALUES (N'237', N'Adidas Palermo Leather - Trắng - 41', N'19', N'3', N'3', N'50', N'2900000', N'3400000', N'puma-palermo-leather-trang.png', NULL, N'1')
@@ -3180,7 +3240,7 @@ GO
 -- ----------------------------
 -- Auto increment value for CartDetails
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[CartDetails]', RESEED, 1)
+DBCC CHECKIDENT ('[dbo].[CartDetails]', RESEED, 10)
 GO
 
 
@@ -3212,7 +3272,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Carts
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Carts]', RESEED, 1)
+DBCC CHECKIDENT ('[dbo].[Carts]', RESEED, 7)
 GO
 
 
@@ -3376,7 +3436,7 @@ GO
 -- ----------------------------
 -- Auto increment value for InvoiceDetails
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[InvoiceDetails]', RESEED, 1)
+DBCC CHECKIDENT ('[dbo].[InvoiceDetails]', RESEED, 9)
 GO
 
 
@@ -3408,7 +3468,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Invoices
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Invoices]', RESEED, 1)
+DBCC CHECKIDENT ('[dbo].[Invoices]', RESEED, 8)
 GO
 
 
