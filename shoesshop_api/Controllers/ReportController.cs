@@ -36,9 +36,9 @@ namespace shoesshop_api.Controllers
 				.Where(u => u.Role == null)
 				.CountAsync();
 
-			var totalEmployees = await _context.Users
-				.Where(u => u.Role != null)
-				.CountAsync();
+			var totalRevenueToday = await _context.Invoices
+				.Where(i => i.Status == (int)InvoiceStatus.Received && i.CreateDate.Date == DateTime.Today)
+				.SumAsync(i => i.TotalPayment);
 
 			var currentYear = DateTime.Now.Year;
 			var monthlyRevenue = new List<decimal>();
@@ -60,7 +60,7 @@ namespace shoesshop_api.Controllers
 				totalRevenue,
 				totalSoldProducts,
 				totalCustomers,
-				totalEmployees,
+				totalRevenueToday,
 				monthlyRevenue,
 			});
 		}
